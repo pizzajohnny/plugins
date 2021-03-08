@@ -1,0 +1,65 @@
+{
+  "name": "fileorganizer",
+  "version": "0.1.0",
+  "authors": ["arcadianCdr"],
+  "description": "File organizer plugin (using porn-vault's library data). It uses your custom-defined templates to rename your scene files.",
+  "pluginEvents": ["sceneCreated", "sceneCustom"],
+  "arguments": [
+    {
+      "name": "dry",
+      "type": "Boolean",
+      "required": false,
+      "default": false,
+      "description": "Whether to perform the rename operation or just a simulation."
+    },
+    {
+      "name": "fileStructureTemplate",
+      "type": "String",
+      "required": true,
+      "default": "",
+      "description": "The template for the new name. See documentation above for details."
+    },
+    {
+      "name": "normalizeAccents",
+      "type": "Boolean",
+      "required": false,
+      "default": false,
+      "description": "Whether to normalize file names and path to unaccented unicode."
+    },
+    {
+      "name": "normalizeMultipleSpaces",
+      "type": "Boolean",
+      "required": false,
+      "default": true,
+      "description": "Whether to replace multiple spaces with a single space."
+    },
+    {
+      "name": "nameConflictHandling",
+      "type": "String",
+      "required": false,
+      "default": "rename",
+      "description": "Behavior in case of name conflicts. Possible values are: `rename`, `overwrite` and `skip`. With 'rename', the new filename is suffixed with a number so that it does not conflict with an existing name anymore. With 'overwrite', the existing file is overriden by the renamed one. For 'skip', the rename operation is cancelled."
+    },
+    {
+      "name": "dateFormat",
+      "type": "String",
+      "required": false,
+      "default": "YYYY-MM-DD",
+      "description": "The date format to use in file names."
+    },
+    {
+      "name": "multiValuesSeparator",
+      "type": "String",
+      "required": true,
+      "default": ", ",
+      "description": "The separator to use for multiple values (like actors, labels,...). For instance, with a `,` as separator, the list of labels will be: `label1, label2, label3`."
+    },
+    {
+      "name": "characterReplacement",
+      "type": "object[]",
+      "required": false,
+      "default": "[{ original: \":\", replacement: \"∶\" }]",
+      "description": "Used to substitite characters with a replacement alternative. See doc above for details."
+    }
+  ]
+}
