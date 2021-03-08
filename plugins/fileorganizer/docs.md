@@ -9,14 +9,14 @@ Blocks are delimited with `{}`. Inside blocks, fields are delimited with `<>`. A
 
 Example of a block: 
 ```html
-{<videoHeight>p}
+{ <videoHeight>p}
 ```
 This group has
-- no prefix
+- a `space` as prefix
 - a field that references the scene's video height
 - the letter "p" as suffix
 
-For a scene with a video height of 2160 pixels, this block would output "2160p" to the renamed file.
+For a scene with a video height of 2160 pixels, this block would output `" 2160p"` to the renamed file.
 
 ### Blocks: key characteristics 
 
@@ -53,15 +53,6 @@ Examples:
 ```
 {<studio!>}{ - <releaseDate>}{ - <actors>}{ - <name!>}{ - <movie1>}{ (<videoHeight>p)}
 ``` 
-
-Which will generate file names like:
-- `Studio - 2019-03-27 - Best scene ever (720p).mp4'
-- `Studio - Eva Evil, John Doe - Best scene ever (2160p).mp4'
-- `Studio - Best scene ever (1080p).mp4'
-- `Studio - Scene 1 - Best movie ever (540p).mp4'
-
-depending on what data exist for each scene.
-
 ### file name constraints
 
 In filenames, there are some illegal and reserved characters like `"`, `/`, `*`, `<`, `?`, `>`, `:` and `|`.  By default, characters that are invalid in a filename are removed. 
@@ -70,6 +61,6 @@ Alternatively, you can use the `characterReplacement` argument to indicate a lis
 
 For instance, if you want to replace all spaces by underscores, you can use (in JSON format):
 ```json
-characterReplacement: [ { original: " ", replacement: "_" } ]
+characterReplacement: [ { "original": " ", "replacement": "_" } ]
 ```
 There is also a limitation to the filename's length (255 characters). You will get a warning that the file rename was not performed when the new name exceeds 255 characters.

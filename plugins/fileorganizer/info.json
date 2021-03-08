@@ -2,7 +2,7 @@
   "name": "fileorganizer",
   "version": "0.1.0",
   "authors": ["arcadianCdr"],
-  "description": "File organizer plugin (using porn-vault's library data). It uses your custom-defined templates to rename your scene files.",
+  "description": "Use your custom-defined templates to rename your scene files.",
   "pluginEvents": ["sceneCreated", "sceneCustom"],
   "arguments": [
     {
