@@ -161,25 +161,20 @@ export async function getTemplateFieldValue(
   resolver: ITemplateFieldResolver,
   index?: number
 ): Promise<string | undefined> {
-  const { event, $formatMessage, $logger } = ctx;
-
   let fieldValue: string | undefined;
-  try {
-    // By default: use piped data from latest plugin...
-    if (resolver.getPluginData) {
-      fieldValue = await resolver.getPluginData(index);
-    }
 
-    // ...and complete the missing piped data with the initial scene data
-    if (
-      event === "sceneCustom" ||
-      (event === "sceneCreate" &&
-        Object.values(SafeInitialDataForSceneCreate).includes(resolver.name))
-    ) {
-      fieldValue ??= await resolver.getInitialData(index);
-    }
-  } catch (err) {
-    $logger.error(`Cannot get value for field "${resolver.name}": ${$formatMessage(err)}`);
+  // By default: use piped data from latest plugin...
+  if (resolver.getPluginData) {
+    fieldValue = await resolver.getPluginData(index);
+  }
+
+  // ...and complete the missing piped data with the initial scene data
+  if (
+    ctx.event === "sceneCustom" ||
+    (ctx.event === "sceneCreate" &&
+      Object.values(SafeInitialDataForSceneCreate).includes(resolver.name))
+  ) {
+    fieldValue ??= await resolver.getInitialData(index);
   }
 
   return fieldValue;
