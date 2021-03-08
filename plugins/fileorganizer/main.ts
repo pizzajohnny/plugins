@@ -63,7 +63,9 @@ async function filenameMaker(ctx: MySceneContext, template: string): Promise<str
       return;
     }
 
-    if (fieldValue) result += `${match.groups?.prefix}${fieldValue}${match.groups?.suffix}`;
+    if (fieldValue) {
+      result += `${match.groups?.prefix}${fieldValue}${match.groups?.suffix}`;
+    }
   }
 
   if (result) {
