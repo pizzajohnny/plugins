@@ -19,6 +19,7 @@ describe("fileorganizer", () => {
   describe("Normal behavior...", () => {
     it("Should rename with a mix of initial data and plug-in piped data, while ignoring non relevant or duplicate data", async () => {
       const result = await runPlugin({
+        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
           name: "Initial scene name",
@@ -33,7 +34,6 @@ describe("fileorganizer", () => {
         args: {
           fileStructureTemplate:
             "{<studio>}{ ~ <releasedate>}{ ~ <ACTORS>}{ ~ <nAme>}{ (<movies2>)}",
-          isMochaTesting: true,
         },
         $getActors: async () => [{ name: "Tobe Ignored" }, { name: "Tobe Ignored" }],
         $getMovies: async () => [{ name: "InitialMovie1" }, { name: "InitialMovie2" }],
@@ -47,6 +47,7 @@ describe("fileorganizer", () => {
     });
     it("Should use all supported template fields from piped data", async () => {
       const result = await runPlugin({
+        isMochaTesting: true,
         event: "sceneCustom",
         name: "NAME",
         releaseDate: new Date(2018, 10, 20).valueOf(),
@@ -71,7 +72,6 @@ describe("fileorganizer", () => {
         args: {
           fileStructureTemplate:
             "{n.<name> }{d.<releaseDate> }{r.<rating> }{h.<videoHeight>p }{w.<videoWidth> }{d.<videoDuration> }{a.<actors> }{s.<studio> }{m.<movies> }{l.<labels>}",
-          isMochaTesting: true,
         },
         $getActors: async () => [{ name: "ACT1" }, { name: "ACT2" }],
         $getMovies: async () => [{ name: "MOV1" }, { name: "MOV2" }],
@@ -86,6 +86,7 @@ describe("fileorganizer", () => {
     });
     it("Should use all supported template fields from the scene's initial data (via server functions)", async () => {
       const result = await runPlugin({
+        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
           name: "NAME",
@@ -101,7 +102,6 @@ describe("fileorganizer", () => {
         args: {
           fileStructureTemplate:
             "{n.<name> }{d.<releaseDate> }{r.<rating> }{h.<videoHeight>p }{w.<videoWidth> }{d.<videoDuration> }{a.<actors> }{s.<studio> }{m.<movies> }{l.<labels>}",
-          isMochaTesting: true,
         },
         $getActors: async () => [{ name: "ACT1" }, { name: "ACT2" }],
         $getMovies: async () => [{ name: "MOV1" }, { name: "MOV2" }],
@@ -116,6 +116,7 @@ describe("fileorganizer", () => {
     });
     it("Should not rename when a mandatory field has no value", async () => {
       const result = await runPlugin({
+        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
           name: "Initial scene name",
@@ -124,7 +125,6 @@ describe("fileorganizer", () => {
         scenePath: "/parent/Irrelevant.mp4",
         args: {
           fileStructureTemplate: "{<studio!>}{ ~ <name>}",
-          isMochaTesting: true,
         },
         $getStudio: async () => {},
       });
@@ -135,6 +135,7 @@ describe("fileorganizer", () => {
   describe("Name normalize & sanitize...", () => {
     it("Should remove all illegal characters and use custom replacements from args...", async () => {
       const result = await runPlugin({
+        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
           name:
@@ -149,7 +150,6 @@ describe("fileorganizer", () => {
             { original: ":", replacement: " - " },
             { original: "|", replacement: "," },
           ],
-          isMochaTesting: true,
         },
       });
       expect(result.path).to.equal(
@@ -158,6 +158,7 @@ describe("fileorganizer", () => {
     });
     it("Should remove illegal characters, but not normalize...", async () => {
       const result = await runPlugin({
+        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
           name:
@@ -168,7 +169,6 @@ describe("fileorganizer", () => {
           fileStructureTemplate: "{<name>}",
           normalizeAccents: false,
           normalizeMultipleSpaces: false,
-          isMochaTesting: true,
         },
       });
       expect(result.path).to.equal(
@@ -180,6 +180,7 @@ describe("fileorganizer", () => {
   describe("Name conflicts handling...", () => {
     it("Should rename with counter suffix...", async () => {
       const result = await runPlugin({
+        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
           name: "dummy",
@@ -188,13 +189,13 @@ describe("fileorganizer", () => {
         args: {
           fileStructureTemplate: "{<name>}",
           nameConflictHandling: "rename",
-          isMochaTesting: true,
         },
       });
       expect(result.path).to.equal("./plugins/fileorganizer/test/fixtures/dummy(2).txt");
     });
     it("Should skip rename...", async () => {
       const result = await runPlugin({
+        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
           name: "dummy",
@@ -203,13 +204,13 @@ describe("fileorganizer", () => {
         args: {
           fileStructureTemplate: "{<name>}",
           nameConflictHandling: "skip",
-          isMochaTesting: true,
         },
       });
       expect(result.path).to.be.undefined;
     });
     it("Should overwrite...", async () => {
       const result = await runPlugin({
+        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
           name: "dummy",
@@ -218,7 +219,6 @@ describe("fileorganizer", () => {
         args: {
           fileStructureTemplate: "{<name>}",
           nameConflictHandling: "overwrite",
-          isMochaTesting: true,
         },
       });
       expect(result.path).to.equal("./plugins/fileorganizer/test/fixtures/dummy.txt");
@@ -228,6 +228,7 @@ describe("fileorganizer", () => {
   describe("Invalid arguments...", () => {
     it("Should not rename if an unknown field is used in template...", async () => {
       const result = await runPlugin({
+        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
           name: "a simple scene name",
@@ -235,13 +236,13 @@ describe("fileorganizer", () => {
         scenePath: "/dir/a simple scene name.mp4",
         args: {
           fileStructureTemplate: "{<naaame>}",
-          isMochaTesting: true,
         },
       });
       expect(result.path).to.be.undefined;
     });
     it("Should not rename if an unknown field argument is used in template...", async () => {
       const result = await runPlugin({
+        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
           name: "a simple scene name",
@@ -249,7 +250,6 @@ describe("fileorganizer", () => {
         scenePath: "/dir/a simple scene name.mp4",
         args: {
           fileStructureTemplate: "{<name?>}",
-          isMochaTesting: true,
         },
       });
       expect(result.path).to.be.undefined;

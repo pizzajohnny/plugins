@@ -18,9 +18,9 @@ export interface IReplacementCharacter {
 }
 
 export interface MySceneContext extends SceneContext {
+  isMochaTesting?: boolean;
   args: {
     dry?: boolean;
-    isMochaTesting?: boolean;
     fileStructureTemplate: string;
     dateFormat?: string;
     multiValuesSeparator?: string;
@@ -75,27 +75,30 @@ async function filenameMaker(ctx: MySceneContext, template: string): Promise<str
   }
 }
 
+enum ConflictAction {
+  OVERWRITE = "overwrite",
+  RENAME = "rename",
+  SKIP = "skip",
+}
+
 module.exports = async (ctx: MySceneContext): Promise<SceneOutput> => {
   const { args, scenePath, $formatMessage, $fs, $logger, $path, $throw } = ctx;
-  const CONFLICT_OVERWRITE = "overwrite";
-  const CONFLICT_RENAME = "rename";
-  const CONFLICT_SKIP = "skip";
-  const CONFLICT_SUPPORTED = [CONFLICT_RENAME, CONFLICT_SKIP, CONFLICT_OVERWRITE];
 
-  if (!scenePath) $throw("Uh oh. You shouldn't use the plugin for this type of event");
+  if (!["sceneCreated", "sceneCustom"].includes(ctx.event)) {
+    $throw("Uh oh. You shouldn't use the plugin for this type of event");
+  }
 
   $logger.verbose(`Starting fileorganizer to rename scene: ${scenePath}...`);
 
   // Check args and set defaults if needed
-  if (args.dateFormat === undefined) args.dateFormat = "YYYY-MM-DD";
-  if (args.characterReplacement === undefined) {
-    args.characterReplacement = [{ original: ":", replacement: "∶" }];
-  }
-  if (args.multiValuesSeparator === undefined) args.multiValuesSeparator = ", ";
-  if (args.nameConflictHandling === undefined) args.nameConflictHandling = CONFLICT_RENAME;
-  if (args.normalizeAccents === undefined) args.normalizeAccents = false;
-  if (args.normalizeMultipleSpaces === undefined) args.normalizeMultipleSpaces = true;
-  if (!CONFLICT_SUPPORTED.includes(args.nameConflictHandling)) {
+  args.dateFormat ??= args.dateFormat = "YYYY-MM-DD";
+  // What looks like a colon is actually the mathematical "ratio" chacacter that is allowed in filenames.
+  args.characterReplacement ??= [{ original: ":", replacement: "∶" }];
+  args.multiValuesSeparator ??= ", ";
+  args.nameConflictHandling ??= ConflictAction.RENAME;
+  args.normalizeAccents ??= false;
+  args.normalizeMultipleSpaces ??= true;
+  if (!((<any>Object).values(ConflictAction).includes(args.nameConflictHandling))) {
     $throw(
       `Unsupported 'nameConflictHandling' argument value: ${args.nameConflictHandling}. Please adapt your config and retry.`
     );
@@ -129,9 +132,9 @@ module.exports = async (ctx: MySceneContext): Promise<SceneOutput> => {
 
   // Manage name conflicts
   if ($fs.existsSync(newScenePath)) {
-    if (args.nameConflictHandling === CONFLICT_SKIP) return {};
+    if (args.nameConflictHandling === ConflictAction.SKIP) return {};
     let counter: number = 1;
-    while (args.nameConflictHandling === CONFLICT_RENAME && $fs.existsSync(newScenePath)) {
+    while (args.nameConflictHandling === ConflictAction.RENAME && $fs.existsSync(newScenePath)) {
       newScenePath = $path.format({
         dir: parsed.dir,
         name: `${newFileName}(${counter++})`,
@@ -142,7 +145,7 @@ module.exports = async (ctx: MySceneContext): Promise<SceneOutput> => {
 
   // Performm the rename operation
   try {
-    if (!args.isMochaTesting) $fs.renameSync(scenePath, newScenePath);
+    if (!ctx.isMochaTesting) $fs.renameSync(scenePath, newScenePath);
   } catch (err) {
     $logger.error(`Could not rename "${scenePath}" to "${newScenePath}": ${$formatMessage(err)}`);
     return {};

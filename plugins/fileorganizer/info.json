@@ -58,7 +58,7 @@
       "name": "characterReplacement",
       "type": "object[]",
       "required": false,
-      "default": "[{ original: \":\", replacement: \"∶\" }]",
+      "default": [{ "original": ":", "replacement": "∶" }],
       "description": "Used to substitite characters with a replacement alternative. See doc above for details."
     }
   ]

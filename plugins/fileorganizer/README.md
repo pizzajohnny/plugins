@@ -113,7 +113,12 @@ There is also a limitation to the filename's length (255 characters). You will g
           "nameConflictHandling": "rename",
           "dateFormat": "YYYY-MM-DD",
           "multiValuesSeparator": ", ",
-          "characterReplacement": "[{ original: \":\", replacement: \"∶\" }]"
+          "characterReplacement": [
+            {
+              "original": ":",
+              "replacement": "∶"
+            }
+          ]
         }
       }
     },
@@ -145,7 +150,9 @@ plugins:
         nameConflictHandling: rename
         dateFormat: YYYY-MM-DD
         multiValuesSeparator: ", "
-        characterReplacement: '[{ original: ":", replacement: "∶" }]'
+        characterReplacement:
+          - original: ":"
+            replacement: ∶
   events:
     sceneCreated:
       - fileorganizer
