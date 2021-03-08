@@ -9,7 +9,7 @@ export function toNormalizedSafeFilename(ctx: MySceneContext, unsafeName: string
   }
 
   if (ctx.args.normalizeMultipleSpaces) {
-    safeFileName = safeFileName.replace(/ {2,}/g, ' ');
+    safeFileName = safeFileName.replace(/ {2,}/g, " ");
   }
 
   return safeFileName.trim();

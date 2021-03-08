@@ -36,7 +36,7 @@ enum SafeInitialDataForSceneCreate {
 
 /**
  * Regex to parse templates into blocks with prefix, field and suffix for each block
- * 
+ *
  * @returns the RegExp
  */
 export function getTemplateMatcher(): RegExp {
@@ -45,8 +45,8 @@ export function getTemplateMatcher(): RegExp {
 
 /**
  * List of all fields allowed within a template and the functions to retreive their string value
- * 
- * @param ctx 
+ *
+ * @param ctx
  * @returns the resolver for each field
  */
 export function getTemplateFieldsResolvers(ctx: MySceneContext): ITemplateFieldResolver[] {
@@ -125,10 +125,9 @@ export function getTemplateFieldsResolvers(ctx: MySceneContext): ITemplateFieldR
   ];
 }
 
-// 
 /**
  * Validates and extracts the different components of a field argument
- * 
+ *
  * @param args the field argument to process
  * @returns IFieldArgs corresponding to the args
  */
@@ -151,16 +150,16 @@ export function getAndValidateFieldArgs(args: string | undefined): IFieldArgs {
 
 /**
  * Use the resolver's functions to get the value of a given field
- * 
- * @param ctx 
- * @param resolver 
+ *
+ * @param ctx
+ * @param resolver
  * @param index optional. If absent and the field is an array, the full array is used.
  * @returns the field's value
  */
 export async function getTemplateFieldValue(
   ctx: MySceneContext,
   resolver: ITemplateFieldResolver,
-  index?: number 
+  index?: number
 ): Promise<string | undefined> {
   const { event, $formatMessage, $logger } = ctx;
 
@@ -174,7 +173,8 @@ export async function getTemplateFieldValue(
     // ...and complete the missing piped data with the initial scene data
     if (
       event === "sceneCustom" ||
-      (event === "sceneCreate" && Object.values(SafeInitialDataForSceneCreate).includes(resolver.name))
+      (event === "sceneCreate" &&
+        Object.values(SafeInitialDataForSceneCreate).includes(resolver.name))
     ) {
       fieldValue ??= await resolver.getInitialData(index);
     }
@@ -187,12 +187,12 @@ export async function getTemplateFieldValue(
 
 /**
  * For fields that have an array value, converts the array to a string (either the requested index or the joined full array)
- * 
- * @param ctx 
- * @param array 
- * @param index 
+ *
+ * @param ctx
+ * @param array
+ * @param index
  * @param hasNameProperty indicates wether the array is an array of strings (false) or if the strings have to be taken from the arrat object's name property
- * @returns 
+ * @returns
  */
 function arrayToString(
   ctx: MySceneContext,
@@ -223,9 +223,9 @@ function arrayToString(
 
 /**
  * Formats the video duration into a string
- * 
- * @param $moment 
- * @param duration 
+ *
+ * @param $moment
+ * @param duration
  * @returns the formatted duration
  */
 function formatVideoDuration($moment, duration): string | undefined {
