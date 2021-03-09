@@ -6,6 +6,15 @@ import fs from "fs";
 const runPlugin = createPluginRunner("fileorganizer", plugin);
 
 describe("fileorganizer", () => {
+  beforeEach(function () {
+    fs.rmdirSync("./plugins/fileorganizer/test/fixtures/temp", { recursive: true });
+    fs.mkdirSync("./plugins/fileorganizer/test/fixtures/temp");
+  });
+
+  afterEach(function () {
+    fs.rmdirSync("./plugins/fileorganizer/test/fixtures/temp", { recursive: true });
+  });
+
   it("Should fail", async () => {
     let errord = false;
     try {
@@ -19,15 +28,15 @@ describe("fileorganizer", () => {
 
   describe("Normal behavior...", () => {
     it("Should rename with a mix of initial data and plug-in piped data, while ignoring non relevant or duplicate data", async () => {
+      fs.writeFileSync("./plugins/fileorganizer/test/fixtures/temp/original.txt", "");
       const result = await runPlugin({
-        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
           name: "Initial scene name",
           releaseDate: new Date(2015, 10, 20).valueOf(),
         },
         sceneName: "Should be ignored",
-        scenePath: "/parent/Irrelevant.mp4",
+        scenePath: "./plugins/fileorganizer/test/fixtures/temp/original.txt",
         data: {
           actors: ["Last1 First1", "Last2 First2"],
           releaseDate: new Date(2020, 10, 20).valueOf(),
@@ -43,12 +52,18 @@ describe("fileorganizer", () => {
         },
       });
       expect(result.path).to.equal(
-        "/parent/InitialStudio ~ 2020-11-20 ~ Last1 First1, Last2 First2 ~ Initial scene name (InitialMovie2).mp4"
+        "./plugins/fileorganizer/test/fixtures/temp/InitialStudio ~ 2020-11-20 ~ Last1 First1, Last2 First2 ~ Initial scene name (InitialMovie2).txt"
       );
+      expect(fs.existsSync("./plugins/fileorganizer/test/fixtures/temp/original.txt")).to.be.false;
+      expect(
+        fs.existsSync(
+          "./plugins/fileorganizer/test/fixtures/temp/InitialStudio ~ 2020-11-20 ~ Last1 First1, Last2 First2 ~ Initial scene name (InitialMovie2).txt"
+        )
+      ).to.be.true;
     });
     it("Should use all supported template fields from piped data", async () => {
+      fs.writeFileSync("./plugins/fileorganizer/test/fixtures/temp/original.txt", "");
       const result = await runPlugin({
-        isMochaTesting: true,
         event: "sceneCustom",
         name: "NAME",
         releaseDate: new Date(2018, 10, 20).valueOf(),
@@ -60,7 +75,7 @@ describe("fileorganizer", () => {
           },
         },
         sceneName: "Should be ignored",
-        scenePath: "/dir/Irrelevant.mp4",
+        scenePath: "./plugins/fileorganizer/test/fixtures/temp/original.txt",
         data: {
           name: "_NAME",
           actors: ["_ACTORS"],
@@ -82,12 +97,18 @@ describe("fileorganizer", () => {
         },
       });
       expect(result.path).to.equal(
-        "/dir/n._NAME d.2020-11-20 r.8 h.2160p w.4096 d.17∶04 a._ACTORS s._STUDIO m._MOVIE l._LABELS.mp4"
+        "./plugins/fileorganizer/test/fixtures/temp/n._NAME d.2020-11-20 r.8 h.2160p w.4096 d.17∶04 a._ACTORS s._STUDIO m._MOVIE l._LABELS.txt"
       );
+      expect(fs.existsSync("./plugins/fileorganizer/test/fixtures/temp/original.txt")).to.be.false;
+      expect(
+        fs.existsSync(
+          "./plugins/fileorganizer/test/fixtures/temp/n._NAME d.2020-11-20 r.8 h.2160p w.4096 d.17∶04 a._ACTORS s._STUDIO m._MOVIE l._LABELS.txt"
+        )
+      ).to.be.true;
     });
     it("Should use all supported template fields from the scene's initial data (via server functions)", async () => {
+      fs.writeFileSync("./plugins/fileorganizer/test/fixtures/temp/original.txt", "");
       const result = await runPlugin({
-        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
           name: "NAME",
@@ -99,7 +120,7 @@ describe("fileorganizer", () => {
           },
         },
         sceneName: "Should be ignored",
-        scenePath: "/dir/Irrelevant.mp4",
+        scenePath: "./plugins/fileorganizer/test/fixtures/temp/original.txt",
         args: {
           fileStructureTemplate:
             "{n.<name> }{d.<releaseDate> }{r.<rating> }{h.<videoHeight>p }{w.<videoWidth> }{d.<videoDuration> }{a.<actors> }{s.<studio> }{m.<movies> }{l.<labels>}",
@@ -112,37 +133,44 @@ describe("fileorganizer", () => {
         },
       });
       expect(result.path).to.equal(
-        "/dir/n.NAME d.2018-11-23 r.7 h.2160p w.4096 d.17∶04 a.ACT1, ACT2 s.STUDIO m.MOV1, MOV2 l.LAB1, LAB2.mp4"
+        "./plugins/fileorganizer/test/fixtures/temp/n.NAME d.2018-11-23 r.7 h.2160p w.4096 d.17∶04 a.ACT1, ACT2 s.STUDIO m.MOV1, MOV2 l.LAB1, LAB2.txt"
       );
+      expect(fs.existsSync("./plugins/fileorganizer/test/fixtures/temp/original.txt")).to.be.false;
+      expect(
+        fs.existsSync(
+          "./plugins/fileorganizer/test/fixtures/temp/n.NAME d.2018-11-23 r.7 h.2160p w.4096 d.17∶04 a.ACT1, ACT2 s.STUDIO m.MOV1, MOV2 l.LAB1, LAB2.txt"
+        )
+      ).to.be.true;
     });
     it("Should not rename when a mandatory field has no value", async () => {
+      fs.writeFileSync("./plugins/fileorganizer/test/fixtures/temp/original.txt", "");
       const result = await runPlugin({
-        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
           name: "Initial scene name",
         },
         sceneName: "Should be ignored",
-        scenePath: "/parent/Irrelevant.mp4",
+        scenePath: "./plugins/fileorganizer/test/fixtures/temp/original.txt",
         args: {
           fileStructureTemplate: "{<studio!>}{ ~ <name>}",
         },
         $getStudio: async () => {},
       });
       expect(result.path).to.be.undefined;
+      expect(fs.existsSync("./plugins/fileorganizer/test/fixtures/temp/original.txt")).to.be.true;
     });
   });
 
   describe("Name normalize & sanitize...", () => {
     it("Should remove all illegal characters and use custom replacements from args...", async () => {
+      fs.writeFileSync("./plugins/fileorganizer/test/fixtures/temp/original.txt", "");
       const result = await runPlugin({
-        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
           name:
             'Dirty  scene? ...not the kind if "dirty" you\'re thinking about, Chloé! :+) / ? < >  : * |',
         },
-        scenePath: "/parent/dir/Irrelevant.mp4",
+        scenePath: "./plugins/fileorganizer/test/fixtures/temp/original.txt",
         args: {
           fileStructureTemplate: "{<name>}",
           normalizeAccents: true,
@@ -154,18 +182,24 @@ describe("fileorganizer", () => {
         },
       });
       expect(result.path).to.equal(
-        "/parent/dir/Dirty scene ...not the kind if dirty you're thinking about, Chloe! - +) ,.mp4"
+        "./plugins/fileorganizer/test/fixtures/temp/Dirty scene ...not the kind if dirty you're thinking about, Chloe! - +) ,.txt"
       );
+      expect(fs.existsSync("./plugins/fileorganizer/test/fixtures/temp/original.txt")).to.be.false;
+      expect(
+        fs.existsSync(
+          "./plugins/fileorganizer/test/fixtures/temp/Dirty scene ...not the kind if dirty you're thinking about, Chloe! - +) ,.txt"
+        )
+      ).to.be.true;
     });
     it("Should remove illegal characters, but not normalize...", async () => {
+      fs.writeFileSync("./plugins/fileorganizer/test/fixtures/temp/original.txt", "");
       const result = await runPlugin({
-        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
           name:
             "Yëëp, what <b>a   strânge</b> filename! These look like illegal chars, but are allowed ∶",
         },
-        scenePath: "/dir/Irrelevant.mp4",
+        scenePath: "./plugins/fileorganizer/test/fixtures/temp/original.txt",
         args: {
           fileStructureTemplate: "{<name>}",
           normalizeAccents: false,
@@ -173,71 +207,123 @@ describe("fileorganizer", () => {
         },
       });
       expect(result.path).to.equal(
-        "/dir/Yëëp, what ba   strângeb filename! These look like illegal chars, but are allowed ∶.mp4"
+        "./plugins/fileorganizer/test/fixtures/temp/Yëëp, what ba   strângeb filename! These look like illegal chars, but are allowed ∶.txt"
       );
+      expect(fs.existsSync("./plugins/fileorganizer/test/fixtures/temp/original.txt")).to.be.false;
+      expect(
+        fs.existsSync(
+          "./plugins/fileorganizer/test/fixtures/temp/Yëëp, what ba   strângeb filename! These look like illegal chars, but are allowed ∶.txt"
+        )
+      ).to.be.true;
     });
   });
 
   describe("Name conflicts handling...", () => {
-    
-    beforeEach(function() {
-      //fs.rename
-    });
-  
-    afterEach(function() {
-    });
-
     it("Should rename with counter suffix...", async () => {
+      fs.writeFileSync("./plugins/fileorganizer/test/fixtures/temp/original.txt", "Original");
+      fs.writeFileSync(
+        "./plugins/fileorganizer/test/fixtures/temp/renamed.txt",
+        "Should not be modified"
+      );
+      fs.writeFileSync(
+        "./plugins/fileorganizer/test/fixtures/temp/renamed(1).txt",
+        "Should not be modified"
+      );
       const result = await runPlugin({
-        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
-          name: "dummy",
+          name: "renamed",
         },
-        scenePath: "./plugins/fileorganizer/test/fixtures/irrelevant.txt",
+        scenePath: "./plugins/fileorganizer/test/fixtures/temp/original.txt",
         args: {
           fileStructureTemplate: "{<name>}",
           nameConflictHandling: "rename",
         },
       });
-      expect(result.path).to.equal("./plugins/fileorganizer/test/fixtures/dummy(2).txt");
+      expect(result.path).to.equal("./plugins/fileorganizer/test/fixtures/temp/renamed(2).txt");
+      expect(fs.existsSync("./plugins/fileorganizer/test/fixtures/temp/original.txt")).to.be.false;
+      expect(fs.existsSync("./plugins/fileorganizer/test/fixtures/temp/renamed.txt")).to.be.true;
+      expect(fs.existsSync("./plugins/fileorganizer/test/fixtures/temp/renamed(1).txt")).to.be.true;
+      expect(fs.existsSync("./plugins/fileorganizer/test/fixtures/temp/renamed(2).txt")).to.be.true;
+      expect(
+        fs.readFileSync("./plugins/fileorganizer/test/fixtures/temp/renamed.txt", {
+          encoding: "utf8",
+        })
+      ).to.equal("Should not be modified");
+      expect(
+        fs.readFileSync("./plugins/fileorganizer/test/fixtures/temp/renamed(1).txt", {
+          encoding: "utf8",
+        })
+      ).to.equal("Should not be modified");
+      expect(
+        fs.readFileSync("./plugins/fileorganizer/test/fixtures/temp/renamed(2).txt", {
+          encoding: "utf8",
+        })
+      ).to.equal("Original");
     });
     it("Should skip rename...", async () => {
+      fs.writeFileSync("./plugins/fileorganizer/test/fixtures/temp/original.txt", "Original");
+      fs.writeFileSync(
+        "./plugins/fileorganizer/test/fixtures/temp/renamed.txt",
+        "Should be skipped"
+      );
       const result = await runPlugin({
-        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
-          name: "dummy",
+          name: "renamed",
         },
-        scenePath: "./plugins/fileorganizer/test/fixtures/irrelevant.txt",
+        scenePath: "./plugins/fileorganizer/test/fixtures/temp/original.txt",
         args: {
           fileStructureTemplate: "{<name>}",
           nameConflictHandling: "skip",
         },
       });
       expect(result.path).to.be.undefined;
+      expect(fs.existsSync("./plugins/fileorganizer/test/fixtures/temp/original.txt")).to.be.true;
+      expect(fs.existsSync("./plugins/fileorganizer/test/fixtures/temp/renamed.txt")).to.be.true;
+      expect(
+        fs.readFileSync("./plugins/fileorganizer/test/fixtures/temp/original.txt", {
+          encoding: "utf8",
+        })
+      ).to.equal("Original");
+      expect(
+        fs.readFileSync("./plugins/fileorganizer/test/fixtures/temp/renamed.txt", {
+          encoding: "utf8",
+        })
+      ).to.equal("Should be skipped");
     });
     it("Should overwrite...", async () => {
+      fs.writeFileSync("./plugins/fileorganizer/test/fixtures/temp/original.txt", "Original");
+      fs.writeFileSync(
+        "./plugins/fileorganizer/test/fixtures/temp/renamed.txt",
+        "Should be overwriten..."
+      );
       const result = await runPlugin({
-        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
-          name: "dummy",
+          name: "renamed",
         },
-        scenePath: "./plugins/fileorganizer/test/fixtures/irrelevant.txt",
+        scenePath: "./plugins/fileorganizer/test/fixtures/temp/original.txt",
         args: {
           fileStructureTemplate: "{<name>}",
           nameConflictHandling: "overwrite",
         },
       });
-      expect(result.path).to.equal("./plugins/fileorganizer/test/fixtures/dummy.txt");
+      expect(result.path).to.equal("./plugins/fileorganizer/test/fixtures/temp/renamed.txt");
+      expect(fs.existsSync("./plugins/fileorganizer/test/fixtures/temp/original.txt")).to.be.false;
+      expect(fs.existsSync("./plugins/fileorganizer/test/fixtures/temp/renamed.txt")).to.be.true;
+      expect(
+        fs.readFileSync("./plugins/fileorganizer/test/fixtures/temp/renamed.txt", {
+          encoding: "utf8",
+        })
+      ).to.equal("Original");
     });
   });
 
   describe("Invalid arguments...", () => {
     it("Should not rename if an unknown field is used in template...", async () => {
+      fs.writeFileSync("./plugins/fileorganizer/test/fixtures/temp/original.txt", "");
       const result = await runPlugin({
-        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
           name: "a simple scene name",
@@ -248,10 +334,11 @@ describe("fileorganizer", () => {
         },
       });
       expect(result.path).to.be.undefined;
+      expect(fs.existsSync("./plugins/fileorganizer/test/fixtures/temp/original.txt")).to.be.true;
     });
     it("Should not rename if an unknown field argument is used in template...", async () => {
+      fs.writeFileSync("./plugins/fileorganizer/test/fixtures/temp/original.txt", "");
       const result = await runPlugin({
-        isMochaTesting: true,
         event: "sceneCustom",
         scene: {
           name: "a simple scene name",
@@ -262,6 +349,7 @@ describe("fileorganizer", () => {
         },
       });
       expect(result.path).to.be.undefined;
+      expect(fs.existsSync("./plugins/fileorganizer/test/fixtures/temp/original.txt")).to.be.true;
     });
   });
 });
