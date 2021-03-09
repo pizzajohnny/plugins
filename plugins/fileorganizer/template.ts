@@ -1,7 +1,6 @@
 import { Actor } from "../../types/actor";
 import { Label } from "../../types/label";
 import { Movie } from "../../types/movie";
-import { Studio } from "../../types/studio";
 import { MySceneContext } from "./main";
 
 const FIELD_NAME = "name";
@@ -99,8 +98,7 @@ export function getTemplateFieldsResolvers(ctx: MySceneContext): ITemplateFieldR
       name: FIELD_STUDIO,
       getPluginData: async (i?: number) => data.studio,
       getInitialData: async (i?: number) => {
-        const studio: Studio = await ctx.$getStudio();
-        return studio.name;
+        return (await ctx.$getStudio())?.name;
       },
     },
     {
