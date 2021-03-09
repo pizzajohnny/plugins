@@ -1,6 +1,7 @@
 const { createPluginRunner } = require("../../../context");
 const plugin = require("../main");
 const { expect } = require("chai");
+import fs from "fs";
 
 const runPlugin = createPluginRunner("fileorganizer", plugin);
 
@@ -33,7 +34,7 @@ describe("fileorganizer", () => {
         },
         args: {
           fileStructureTemplate:
-            "{<studio>}{ ~ <releasedate>}{ ~ <ACTORS>}{ ~ <nAme>}{ (<movies2>)}",
+            "{<studio>} _ignore text between blocks_ { ~ <releasedate>}{ ~ <ACTORS>}{ ~ <nAme>}{ (<movies2>)}",
         },
         $getActors: async () => [{ name: "Tobe Ignored" }, { name: "Tobe Ignored" }],
         $getMovies: async () => [{ name: "InitialMovie1" }, { name: "InitialMovie2" }],
@@ -178,6 +179,14 @@ describe("fileorganizer", () => {
   });
 
   describe("Name conflicts handling...", () => {
+    
+    beforeEach(function() {
+      //fs.rename
+    });
+  
+    afterEach(function() {
+    });
+
     it("Should rename with counter suffix...", async () => {
       const result = await runPlugin({
         isMochaTesting: true,
