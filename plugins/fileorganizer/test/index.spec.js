@@ -292,32 +292,6 @@ describe("fileorganizer", () => {
         })
       ).to.equal("Should be skipped");
     });
-    it("Should overwrite...", async () => {
-      fs.writeFileSync("./plugins/fileorganizer/test/fixtures/temp/original.txt", "Original");
-      fs.writeFileSync(
-        "./plugins/fileorganizer/test/fixtures/temp/renamed.txt",
-        "Should be overwriten..."
-      );
-      const result = await runPlugin({
-        event: "sceneCustom",
-        scene: {
-          name: "renamed",
-        },
-        scenePath: "./plugins/fileorganizer/test/fixtures/temp/original.txt",
-        args: {
-          fileStructureTemplate: "{<name>}",
-          nameConflictHandling: "overwrite",
-        },
-      });
-      expect(result.path).to.equal("./plugins/fileorganizer/test/fixtures/temp/renamed.txt");
-      expect(fs.existsSync("./plugins/fileorganizer/test/fixtures/temp/original.txt")).to.be.false;
-      expect(fs.existsSync("./plugins/fileorganizer/test/fixtures/temp/renamed.txt")).to.be.true;
-      expect(
-        fs.readFileSync("./plugins/fileorganizer/test/fixtures/temp/renamed.txt", {
-          encoding: "utf8",
-        })
-      ).to.equal("Original");
-    });
   });
 
   describe("Invalid arguments...", () => {
