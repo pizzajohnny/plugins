@@ -98,9 +98,7 @@ module.exports = async (ctx: MySceneContext): Promise<SceneOutput> => {
 
   // Check args and set defaults if needed
   if (!args.fileStructureTemplate || !getTemplateMatcher().test(args.fileStructureTemplate)) {
-    throw new Error(
-      `invalid teamplate: '${args.fileStructureTemplate}'. Please correct and retry.`
-    );
+    $throw(`invalid teamplate: '${args.fileStructureTemplate}'. Please correct and retry.`);
   }
   args.dateFormat ??= args.dateFormat = "YYYY-MM-DD";
   // What looks like a colon is actually the mathematical "ratio" chacacter that is allowed in filenames.
