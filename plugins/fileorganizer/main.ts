@@ -100,7 +100,7 @@ module.exports = async (ctx: MySceneContext): Promise<SceneOutput> => {
     $throw(`invalid teamplate: '${args.fileStructureTemplate}'. Please correct and retry.`);
   }
   args.dateFormat ??= args.dateFormat = "YYYY-MM-DD";
-  // What looks like a colon is actually the mathematical "ratio" chacacter that is allowed in filenames.
+  // What looks like a colon is actually the mathematical "ratio" character that is allowed in filenames.
   args.characterReplacement ??= [{ original: ":", replacement: "∶" }];
   args.multiValuesSeparator ??= ", ";
   args.nameConflictHandling ??= ConflictAction.RENAME;
@@ -114,7 +114,9 @@ module.exports = async (ctx: MySceneContext): Promise<SceneOutput> => {
 
   // Builds the new file name
   const newFileName: string | undefined = await filenameMaker(ctx, args.fileStructureTemplate);
-  if (!newFileName) return {};
+  if (!newFileName) {
+    return {};
+  }
   if (newFileName.length > 255) {
     $logger.warn(
       `Skipping rename (the new filename is greater than 255 characters): "${newFileName}"`
@@ -140,7 +142,9 @@ module.exports = async (ctx: MySceneContext): Promise<SceneOutput> => {
 
   // Manage name conflicts
   if ($fs.existsSync(newScenePath)) {
-    if (args.nameConflictHandling === ConflictAction.SKIP) return {};
+    if (args.nameConflictHandling === ConflictAction.SKIP) {
+      return {};
+    }
     let counter: number = 1;
     while (args.nameConflictHandling === ConflictAction.RENAME && $fs.existsSync(newScenePath)) {
       newScenePath = $path.format({
@@ -151,7 +155,7 @@ module.exports = async (ctx: MySceneContext): Promise<SceneOutput> => {
     }
   }
 
-  // Performm the rename operation
+  // Performs the rename operation
   try {
     await $fsPromises.rename(scenePath, newScenePath);
   } catch (err) {
