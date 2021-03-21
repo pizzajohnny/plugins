@@ -39,7 +39,7 @@ async function filenameMaker(ctx: MySceneContext, template: string): Promise<str
   const matches = template.matchAll(getTemplateMatcher());
 
   for (const match of matches) {
-    // Finds the resolver for the matched field and retreive its field arguments
+    // Finds the resolver for the matched field and retrieve its field arguments
     const resolver = fieldResolvers.find(
       (item) => item.name.toLowerCase() === match.groups?.field?.toLowerCase()
     );
@@ -47,7 +47,7 @@ async function filenameMaker(ctx: MySceneContext, template: string): Promise<str
 
     if (!resolver || !fieldArgs.isValid) {
       $logger.error(
-        `Unsuported field ${match.groups?.field} (or its arguments) in template ${template}`
+        `Unsupported field ${match.groups?.field} (or its arguments) in template ${template}`
       );
       return;
     }
