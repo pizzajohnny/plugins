@@ -459,12 +459,13 @@ var main = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
         $throw("Plugin used for unsupported event");
     }
     const envApiKey = process.env.TPDB_API_KEY;
-    $logger.verbose(`env has TPDB API key: ${!!envApiKey}`);
-    if (!Object.hasOwnProperty.call(args, "useTitleInSearch") && envApiKey) {
-        args.apiKey = process.env.TPDB_API_KEY;
-    }
-    else if (!envApiKey) {
-        $throw("Missing apiKey in plugin args!");
+    if (!Object.hasOwnProperty.call(args, "apiKey")) {
+        if (envApiKey) {
+            args.apiKey = process.env.TPDB_API_KEY;
+        }
+        else {
+            $throw("Missing apiKey in plugin args!");
+        }
     }
     if (!Object.hasOwnProperty.call(args, "useTitleInSearch")) {
         $logger.warn("Missing useTitleInSearch in plugin args!");
