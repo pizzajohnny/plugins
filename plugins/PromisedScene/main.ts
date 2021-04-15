@@ -40,10 +40,12 @@ module.exports = async (ctx: MyContext): Promise<SceneOutput> => {
   // Checking all of the arguments are set in the plugin
 
   const envApiKey = process.env.TPDB_API_KEY;
-  if (!Object.hasOwnProperty.call(args, "useTitleInSearch") && envApiKey) {
-    args.apiKey = process.env.TPDB_API_KEY;
-  } else if (!envApiKey) {
-    $throw("Missing apiKey in plugin args!");
+  if (!Object.hasOwnProperty.call(args, "useTitleInSearch")) {
+    if (envApiKey) {
+      args.apiKey = process.env.TPDB_API_KEY;
+    } else {
+      $throw("Missing apiKey in plugin args!");
+    }
   }
 
   if (!Object.hasOwnProperty.call(args, "useTitleInSearch")) {
