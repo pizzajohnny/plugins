@@ -51,7 +51,7 @@ function pluginExists(name: string): boolean {
     version: "0.0.1",
     authors: [result.author],
     description: result.description,
-    pluginEvents: [],
+    events: [],
   };
   const infoJsonPath = resolve(pluginFolder, "info.json");
   writeFileSync(infoJsonPath, JSON.stringify(infoJson, null, 2));

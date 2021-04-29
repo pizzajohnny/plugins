@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "authors": ["boi123212321"],
   "description": "Filter labels returned by other plugins",
-  "pluginEvents": [
+  "events": [
     "actorCreated",
     "actorCustom",
     "sceneCreated",
