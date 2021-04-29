@@ -1,6 +1,6 @@
 {
   "name": "fileorganizer",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "authors": ["arcadianCdr"],
   "description": "Use your custom-defined templates to rename your scene files.",
   "pluginEvents": ["sceneCreated", "sceneCustom"],
