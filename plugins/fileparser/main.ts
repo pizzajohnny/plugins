@@ -1,7 +1,7 @@
 import { applyMetadata, Plugin } from "../../types/plugin";
+import { SceneOutput } from "../../types/scene";
 
 import { MySceneContext } from "./types";
-import { SceneOutput } from "../../types/scene";
 import { dateToTimestamp, matchElement } from "./utils";
 import { findAndLoadSceneConfig } from "./config";
 

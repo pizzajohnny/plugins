@@ -1,5 +1,4 @@
 import { applyMetadata, Plugin } from "../../types/plugin";
-
 import { ActorContext, ActorOutput } from "../../types/actor";
 import { MovieContext, MovieOutput } from "../../types/movie";
 

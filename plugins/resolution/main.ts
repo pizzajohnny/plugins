@@ -1,5 +1,4 @@
 import { applyMetadata, Plugin } from "../../types/plugin";
-
 import { SceneContext } from "../../types/scene";
 
 import info from "./info.json";

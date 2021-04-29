@@ -1,6 +1,6 @@
 import { applyMetadata, Plugin } from "../../types/plugin";
-
 import { StudioOutput } from "../../types/studio";
+
 import studioHandler from "./studio";
 import { MyStudioContext } from "./types";
 

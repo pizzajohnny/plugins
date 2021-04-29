@@ -1,7 +1,8 @@
 import { applyMetadata, Plugin } from "../../types/plugin";
+import { SceneContext, SceneOutput } from "../../types/scene";
 
 import { promises as $fsPromises } from "fs";
-import { SceneContext, SceneOutput } from "../../types/scene";
+
 import {
   getAndValidateFieldArgs,
   getTemplateFieldsResolvers,
