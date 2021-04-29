@@ -60,13 +60,24 @@ function pluginExists(name: string): boolean {
 
   writeFileSync(
     pluginEntryFile,
-    `import { Context } from "../../types/plugin";
-    
-module.exports = async (ctx: Context /* adjust based on events */): Promise<any /* adjust based on output */> => {
+    `import { applyMetadata, Plugin } from "../../types/plugin";
+import { Context } from "../../types/plugin";
+
+import info from "./info.json";
+
+const handler: Plugin<Context /* adjust based on events */, any /* adjust based on output */> = async (ctx) => {
   // TODO: implement
   ctx.$log("Hello world from ${result.name}");
   return {};
 };
+
+handler.requiredVersion = ">=0.28"; // TODO: adjust version requirement here
+
+applyMetadata(handler, info);
+
+module.exports = handler;
+
+export default handler;
   `
   );
 

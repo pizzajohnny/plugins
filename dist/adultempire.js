@@ -7,6 +7,20 @@ function createCommonjsModule(fn) {
 	return fn(module, module.exports), module.exports;
 }
 
+var plugin = createCommonjsModule(function (module, exports) {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.applyMetadata = void 0;
+function applyMetadata(handler, info) {
+    handler.pluginName = info.name;
+    handler.events = info.events;
+    handler.arguments = info.arguments;
+    handler.version = info.version;
+    handler.authors = info.authors;
+    handler.description = info.description;
+}
+exports.applyMetadata = applyMetadata;
+});
+
 var html = createCommonjsModule(function (module, exports) {
 
 const NS = (exports.NAMESPACES = {
@@ -5190,7 +5204,7 @@ var Yacute = "Ý";
 var yacute = "ý";
 var yen = "¥";
 var yuml = "ÿ";
-var require$$2 = {
+var require$$2$1 = {
 	Aacute: Aacute,
 	aacute: aacute,
 	Acirc: Acirc,
@@ -5365,10 +5379,10 @@ function decodeCodePoint(codePoint) {
     output += String.fromCharCode(codePoint);
     return output;
 }
-var _default$8 = decodeCodePoint;
+var _default$9 = decodeCodePoint;
 
 var decode_codepoint = /*#__PURE__*/Object.defineProperty({
-	default: _default$8
+	default: _default$9
 }, '__esModule', {value: true});
 
 var decode = createCommonjsModule(function (module, exports) {
@@ -5378,7 +5392,7 @@ var __importDefault = (commonjsGlobal && commonjsGlobal.__importDefault) || func
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.decodeHTML = exports.decodeHTMLStrict = exports.decodeXML = void 0;
 var entities_json_1 = __importDefault(require$$1$1);
-var legacy_json_1 = __importDefault(require$$2);
+var legacy_json_1 = __importDefault(require$$2$1);
 var xml_json_1 = __importDefault(require$$3);
 var decode_codepoint_1 = __importDefault(decode_codepoint);
 exports.decodeXML = getStrictDecoder(xml_json_1.default);
@@ -5776,7 +5790,7 @@ function render(node, options) {
     }
     return output;
 }
-var _default$7 = render;
+var _default$8 = render;
 function renderNode(node, options) {
     switch (node.type) {
         case ElementType.Root:
@@ -5869,13 +5883,13 @@ function renderComment(elem) {
 }
 
 var lib$8 = /*#__PURE__*/Object.defineProperty({
-	default: _default$7
+	default: _default$8
 }, '__esModule', {value: true});
 
 /*
  * Cheerio default options
  */
-var _default$6 = {
+var _default$7 = {
   xml: false,
   decodeEntities: true,
 };
@@ -5891,7 +5905,7 @@ var flatten = function (options) {
 };
 
 var options = {
-	default: _default$6,
+	default: _default$7,
 	flatten: flatten
 };
 
@@ -6225,7 +6239,7 @@ var charsToEscape = new Set(__spreadArrays(Object.keys(actionTypes)
 function stringify$2(selector) {
     return selector.map(stringifySubselector).join(", ");
 }
-var _default$5 = stringify$2;
+var _default$6 = stringify$2;
 function stringifySubselector(token) {
     return token.map(stringifyToken).join("");
 }
@@ -6292,7 +6306,7 @@ function escapeName(str) {
 }
 
 var stringify_1 = /*#__PURE__*/Object.defineProperty({
-	default: _default$5
+	default: _default$6
 }, '__esModule', {value: true});
 
 var lib$7 = createCommonjsModule(function (module, exports) {
@@ -7129,7 +7143,7 @@ function sortByProcedure(arr) {
         }
     }
 }
-var _default$4 = sortByProcedure;
+var _default$5 = sortByProcedure;
 function getProcedure(token) {
     var proc = procedure.procedure[token.type];
     if (token.type === "attribute") {
@@ -7180,7 +7194,7 @@ function getProcedure(token) {
 }
 
 var sort = /*#__PURE__*/Object.defineProperty({
-	default: _default$4
+	default: _default$5
 }, '__esModule', {value: true});
 
 var attributes$1 = createCommonjsModule(function (module, exports) {
@@ -12530,7 +12544,7 @@ class ErrorReportingParserMixin extends mixinBase {
 
 var parserMixin = ErrorReportingParserMixin;
 
-var _default$3 = createCommonjsModule(function (module, exports) {
+var _default$4 = createCommonjsModule(function (module, exports) {
 
 const { DOCUMENT_MODE } = html;
 
@@ -13041,7 +13055,7 @@ const DEFAULT_OPTIONS$1 = {
     scriptingEnabled: true,
     sourceCodeLocationInfo: false,
     onParseError: null,
-    treeAdapter: _default$3
+    treeAdapter: _default$4
 };
 
 //Misc constants
@@ -15979,7 +15993,7 @@ const NS = html.NAMESPACES;
 
 //Default serializer options
 const DEFAULT_OPTIONS = {
-    treeAdapter: _default$3
+    treeAdapter: _default$4
 };
 
 //Escaping regexes
@@ -16180,7 +16194,7 @@ var __importDefault$3 = (commonjsGlobal && commonjsGlobal.__importDefault) || fu
 
 var decode_codepoint_1 = __importDefault$3(decode_codepoint);
 var entities_json_1 = __importDefault$3(require$$1$1);
-var legacy_json_1 = __importDefault$3(require$$2);
+var legacy_json_1 = __importDefault$3(require$$2$1);
 var xml_json_1 = __importDefault$3(require$$3);
 function whitespace(c) {
     return c === " " || c === "\n" || c === "\t" || c === "\f" || c === "\r";
@@ -17067,10 +17081,10 @@ var Tokenizer = /** @class */ (function () {
     };
     return Tokenizer;
 }());
-var _default$2 = Tokenizer;
+var _default$3 = Tokenizer;
 
 var Tokenizer_1 = /*#__PURE__*/Object.defineProperty({
-	default: _default$2
+	default: _default$3
 }, '__esModule', {value: true});
 
 var Parser_1 = createCommonjsModule(function (module, exports) {
@@ -21561,9 +21575,9 @@ function isArrayLike(item) {
 }
 });
 
-var name = "cheerio";
-var version = "1.0.0-rc.5";
-var description = "Tiny, fast, and elegant implementation of core jQuery designed specifically for the server";
+var name$1 = "cheerio";
+var version$1 = "1.0.0-rc.5";
+var description$1 = "Tiny, fast, and elegant implementation of core jQuery designed specifically for the server";
 var author = "Matt Mueller <mattmuelle@gmail.com> (mat.io)";
 var license = "MIT";
 var keywords = [
@@ -21635,9 +21649,9 @@ var prettier = {
 	tabWidth: 2
 };
 var require$$1 = {
-	name: name,
-	version: version,
-	description: description,
+	name: name$1,
+	version: version$1,
+	description: description$1,
 	author: author,
 	license: license,
 	keywords: keywords,
@@ -21809,10 +21823,10 @@ function default_1$1(ctx) {
         return {};
     });
 }
-var _default$1 = default_1$1;
+var _default$2 = default_1$1;
 
 var actor = /*#__PURE__*/Object.defineProperty({
-	default: _default$1
+	default: _default$2
 }, '__esModule', {value: true});
 
 var __awaiter$1 = (commonjsGlobal && commonjsGlobal.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -21914,11 +21928,38 @@ function default_1(ctx) {
         return {};
     });
 }
-var _default = default_1;
+var _default$1 = default_1;
 
 var movie = /*#__PURE__*/Object.defineProperty({
-	default: _default
+	default: _default$1
 }, '__esModule', {value: true});
+
+var name = "adultempire";
+var version = "0.5.0";
+var authors = [
+	"boi123212321"
+];
+var description = "Scrape data from adultempire";
+var pluginEvents = [
+	"movieCreated",
+	"actorCreated"
+];
+var require$$2 = {
+	name: name,
+	version: version,
+	authors: authors,
+	description: description,
+	pluginEvents: pluginEvents,
+	"arguments": [
+	{
+		name: "dry",
+		type: "Boolean",
+		required: false,
+		"default": false,
+		description: "Whether to commit data changes"
+	}
+]
+};
 
 var __awaiter = (commonjsGlobal && commonjsGlobal.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -21933,9 +21974,11 @@ var __importDefault = (commonjsGlobal && commonjsGlobal.__importDefault) || func
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 
+
 const actor_1 = __importDefault(actor);
 const movie_1 = __importDefault(movie);
-var main = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
+const info_json_1 = __importDefault(require$$2);
+const handler = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
     if (ctx.movieName) {
         return movie_1.default(ctx);
     }
@@ -21944,5 +21987,10 @@ var main = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
     }
     ctx.$throw("Uh oh. You shouldn't use the plugin for this type of event");
 });
+handler.requiredVersion = ">=0.27";
+plugin.applyMetadata(handler, info_json_1.default);
+var main = handler;
+var _default = handler;
+main.default = _default;
 
-module.exports = main;
+module.exports = _default;

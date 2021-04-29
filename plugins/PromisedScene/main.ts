@@ -1,3 +1,5 @@
+import { applyMetadata, Plugin } from "../../types/plugin";
+
 import { SceneOutput } from "../../types/scene";
 import { Api } from "./api";
 import { parseSceneActor, parseSceneStudio, parseSceneTimestamp } from "./parse";
@@ -14,7 +16,9 @@ import {
   timestampToString,
 } from "./util";
 
-module.exports = async (ctx: MyContext): Promise<SceneOutput> => {
+import info from "./info.json";
+
+const handler: Plugin<MyContext, SceneOutput> = async (ctx) => {
   const {
     event,
     scene,
@@ -654,3 +658,11 @@ module.exports = async (ctx: MyContext): Promise<SceneOutput> => {
     return mergeSearchResult(userSelectedScene);
   }
 };
+
+handler.requiredVersion = ">=0.27";
+
+applyMetadata(handler, info);
+
+module.exports = handler;
+
+export default handler;

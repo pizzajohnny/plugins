@@ -7,6 +7,20 @@ function createCommonjsModule(fn) {
 	return fn(module, module.exports), module.exports;
 }
 
+var plugin = createCommonjsModule(function (module, exports) {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.applyMetadata = void 0;
+function applyMetadata(handler, info) {
+    handler.pluginName = info.name;
+    handler.events = info.events;
+    handler.arguments = info.arguments;
+    handler.version = info.version;
+    handler.authors = info.authors;
+    handler.description = info.description;
+}
+exports.applyMetadata = applyMetadata;
+});
+
 var html = createCommonjsModule(function (module, exports) {
 
 const NS = (exports.NAMESPACES = {
@@ -2956,7 +2970,7 @@ var Zscr = "𝒵";
 var zscr = "𝓏";
 var zwj = "‍";
 var zwnj = "‌";
-var require$$1$1 = {
+var require$$1$2 = {
 	Aacute: Aacute$1,
 	aacute: aacute$1,
 	Abreve: Abreve,
@@ -5365,10 +5379,10 @@ function decodeCodePoint(codePoint) {
     output += String.fromCharCode(codePoint);
     return output;
 }
-var _default$6 = decodeCodePoint;
+var _default$7 = decodeCodePoint;
 
 var decode_codepoint = /*#__PURE__*/Object.defineProperty({
-	default: _default$6
+	default: _default$7
 }, '__esModule', {value: true});
 
 var decode = createCommonjsModule(function (module, exports) {
@@ -5377,7 +5391,7 @@ var __importDefault = (commonjsGlobal && commonjsGlobal.__importDefault) || func
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.decodeHTML = exports.decodeHTMLStrict = exports.decodeXML = void 0;
-var entities_json_1 = __importDefault(require$$1$1);
+var entities_json_1 = __importDefault(require$$1$2);
 var legacy_json_1 = __importDefault(require$$2);
 var xml_json_1 = __importDefault(require$$3);
 var decode_codepoint_1 = __importDefault(decode_codepoint);
@@ -5437,7 +5451,7 @@ var xml_json_1 = __importDefault(require$$3);
 var inverseXML = getInverseObj(xml_json_1.default);
 var xmlReplacer = getInverseReplacer(inverseXML);
 exports.encodeXML = getInverse(inverseXML, xmlReplacer);
-var entities_json_1 = __importDefault(require$$1$1);
+var entities_json_1 = __importDefault(require$$1$2);
 var inverseHTML = getInverseObj(entities_json_1.default);
 var htmlReplacer = getInverseReplacer(inverseHTML);
 exports.encodeHTML = getInverse(inverseHTML, htmlReplacer);
@@ -5776,7 +5790,7 @@ function render(node, options) {
     }
     return output;
 }
-var _default$5 = render;
+var _default$6 = render;
 function renderNode(node, options) {
     switch (node.type) {
         case ElementType.Root:
@@ -5869,13 +5883,13 @@ function renderComment(elem) {
 }
 
 var lib$8 = /*#__PURE__*/Object.defineProperty({
-	default: _default$5
+	default: _default$6
 }, '__esModule', {value: true});
 
 /*
  * Cheerio default options
  */
-var _default$4 = {
+var _default$5 = {
   xml: false,
   decodeEntities: true,
 };
@@ -5891,7 +5905,7 @@ var flatten = function (options) {
 };
 
 var options = {
-	default: _default$4,
+	default: _default$5,
 	flatten: flatten
 };
 
@@ -6225,7 +6239,7 @@ var charsToEscape = new Set(__spreadArrays(Object.keys(actionTypes)
 function stringify$2(selector) {
     return selector.map(stringifySubselector).join(", ");
 }
-var _default$3 = stringify$2;
+var _default$4 = stringify$2;
 function stringifySubselector(token) {
     return token.map(stringifyToken).join("");
 }
@@ -6292,7 +6306,7 @@ function escapeName(str) {
 }
 
 var stringify_1 = /*#__PURE__*/Object.defineProperty({
-	default: _default$3
+	default: _default$4
 }, '__esModule', {value: true});
 
 var lib$7 = createCommonjsModule(function (module, exports) {
@@ -7129,7 +7143,7 @@ function sortByProcedure(arr) {
         }
     }
 }
-var _default$2 = sortByProcedure;
+var _default$3 = sortByProcedure;
 function getProcedure(token) {
     var proc = procedure.procedure[token.type];
     if (token.type === "attribute") {
@@ -7180,7 +7194,7 @@ function getProcedure(token) {
 }
 
 var sort = /*#__PURE__*/Object.defineProperty({
-	default: _default$2
+	default: _default$3
 }, '__esModule', {value: true});
 
 var attributes$1 = createCommonjsModule(function (module, exports) {
@@ -12530,7 +12544,7 @@ class ErrorReportingParserMixin extends mixinBase {
 
 var parserMixin = ErrorReportingParserMixin;
 
-var _default$1 = createCommonjsModule(function (module, exports) {
+var _default$2 = createCommonjsModule(function (module, exports) {
 
 const { DOCUMENT_MODE } = html;
 
@@ -13041,7 +13055,7 @@ const DEFAULT_OPTIONS$1 = {
     scriptingEnabled: true,
     sourceCodeLocationInfo: false,
     onParseError: null,
-    treeAdapter: _default$1
+    treeAdapter: _default$2
 };
 
 //Misc constants
@@ -15979,7 +15993,7 @@ const NS = html.NAMESPACES;
 
 //Default serializer options
 const DEFAULT_OPTIONS = {
-    treeAdapter: _default$1
+    treeAdapter: _default$2
 };
 
 //Escaping regexes
@@ -16179,7 +16193,7 @@ var __importDefault$1 = (commonjsGlobal && commonjsGlobal.__importDefault) || fu
 };
 
 var decode_codepoint_1 = __importDefault$1(decode_codepoint);
-var entities_json_1 = __importDefault$1(require$$1$1);
+var entities_json_1 = __importDefault$1(require$$1$2);
 var legacy_json_1 = __importDefault$1(require$$2);
 var xml_json_1 = __importDefault$1(require$$3);
 function whitespace(c) {
@@ -17067,10 +17081,10 @@ var Tokenizer = /** @class */ (function () {
     };
     return Tokenizer;
 }());
-var _default = Tokenizer;
+var _default$1 = Tokenizer;
 
 var Tokenizer_1 = /*#__PURE__*/Object.defineProperty({
-	default: _default
+	default: _default$1
 }, '__esModule', {value: true});
 
 var Parser_1 = createCommonjsModule(function (module, exports) {
@@ -21561,9 +21575,9 @@ function isArrayLike(item) {
 }
 });
 
-var name = "cheerio";
-var version = "1.0.0-rc.5";
-var description = "Tiny, fast, and elegant implementation of core jQuery designed specifically for the server";
+var name$1 = "cheerio";
+var version$1 = "1.0.0-rc.5";
+var description$1 = "Tiny, fast, and elegant implementation of core jQuery designed specifically for the server";
 var author = "Matt Mueller <mattmuelle@gmail.com> (mat.io)";
 var license = "MIT";
 var keywords = [
@@ -21634,10 +21648,10 @@ var prettier = {
 	singleQuote: true,
 	tabWidth: 2
 };
-var require$$1 = {
-	name: name,
-	version: version,
-	description: description,
+var require$$1$1 = {
+	name: name$1,
+	version: version$1,
+	description: description$1,
 	author: author,
 	license: license,
 	keywords: keywords,
@@ -21677,7 +21691,7 @@ exports = module.exports = cheerio$1;
  *
  * @type {string}
  */
-exports.version = require$$1.version;
+exports.version = require$$1$1.version;
 
 exports.load = _static.load;
 exports.html = _static.html;
@@ -21740,6 +21754,87 @@ exports.parseHTML = _static.parseHTML;
 exports.root = _static.root;
 });
 
+var name = "freeones";
+var version = "0.11.0";
+var authors = [
+	"boi123212321",
+	"john4valor",
+	"pizzajohnny",
+	"leadwolf"
+];
+var description = "Scrape actress data from freeones.com";
+var pluginEvents = [
+	"actorCreated",
+	"actorCustom"
+];
+var require$$1 = {
+	name: name,
+	version: version,
+	authors: authors,
+	description: description,
+	pluginEvents: pluginEvents,
+	"arguments": [
+	{
+		name: "dry",
+		type: "Boolean",
+		required: false,
+		"default": false,
+		description: "Whether to commit data changes"
+	},
+	{
+		name: "whitelist",
+		type: "String[]",
+		required: false,
+		"default": [
+		],
+		description: "Array of data fields to pick (possible values: 'nationality', 'zodiac', 'aliases', 'height', 'weight', 'avatar', 'bornOn', 'labels', 'hair color', 'eye color', 'ethnicity', 'birthplace', 'measurements', 'tattoos', 'piercings')"
+	},
+	{
+		name: "blacklist",
+		type: "String[]",
+		required: false,
+		"default": [
+		],
+		description: "Array of data fields to omit (for values see whitelist)"
+	},
+	{
+		name: "searchResultsSort",
+		type: "String",
+		required: false,
+		"default": "relevance",
+		description: "Specify the search result sort order key to use. Advanced setting: use only if you know what you are doing. Possible values are 'relevance', 'rank.currentRank', 'followerCount', 'profileCompleted' or 'views'"
+	},
+	{
+		name: "useImperial",
+		type: "Boolean",
+		required: false,
+		"default": false,
+		description: "Use imperial units for height and weight"
+	},
+	{
+		name: "useAvatarAsThumbnail",
+		type: "Boolean",
+		required: false,
+		"default": false,
+		description: "Use the discovered Actor Avatar as the Actor Thumbnail image"
+	},
+	{
+		name: "piercingsType",
+		type: "'string' | 'array'",
+		required: false,
+		"default": "string",
+		description: "How to return the piercings. Use 'array' if your custom field is a select or multi select"
+	},
+	{
+		name: "tattoosType",
+		type: "'string' | 'array'",
+		required: false,
+		"default": "string",
+		description: "How to return the tattoos. Use 'array' if your custom field is a select or multi select"
+	}
+]
+};
+
 var __awaiter = (commonjsGlobal && commonjsGlobal.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -21753,7 +21848,9 @@ var __importDefault = (commonjsGlobal && commonjsGlobal.__importDefault) || func
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 
+
 const cheerio_1 = __importDefault(cheerio);
+const info_json_1 = __importDefault(require$$1);
 function lowercase(str) {
     return str.toLowerCase();
 }
@@ -21804,9 +21901,9 @@ class Measurements {
         return `${this.bust}${this.cup}`;
     }
 }
-var main = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
+const handler = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    const { $createImage, args, $axios, $moment, $throw, $logger, $formatMessage, actorName, } = ctx;
+    const { $createImage, args, $axios, $moment, $throw, $logger, $formatMessage, actorName } = ctx;
     if (!actorName) {
         $throw("Uh oh. You shouldn't use the plugin for this type of event");
     }
@@ -22160,5 +22257,10 @@ var main = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
     }
     return data;
 });
+handler.requiredVersion = ">=0.27";
+plugin.applyMetadata(handler, info_json_1.default);
+var main = handler;
+var _default = handler;
+main.default = _default;
 
-module.exports = main;
+module.exports = _default;

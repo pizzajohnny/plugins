@@ -104,3 +104,34 @@ export interface CustomFieldsOutput {
 export type DeepPartial<T> = {
   [P in keyof T]?: DeepPartial<T[P]> | undefined;
 };
+
+export interface IPluginInfo {
+  // Taken from plugin's info.json
+  events: string[];
+  arguments: unknown;
+  version: string;
+  authors: string[];
+  pluginName: string;
+  description: string;
+}
+
+export interface IPluginMetadata extends IPluginInfo {
+  // Used to validate usage
+  requiredVersion: string;
+  validateArguments: (args: unknown) => boolean;
+}
+export type PluginFunction<Input, Output> = (ctx: Input) => Promise<Output>;
+export type Plugin<Input, Output> = PluginFunction<Input, Output> & Partial<IPluginMetadata>;
+
+// available as utility function in plugin dev context
+export function applyMetadata(
+  handler: Plugin<any, any>,
+  info: Partial<IPluginInfo & { name: string }>
+) {
+  handler.pluginName = info.name;
+  handler.events = info.events;
+  handler.arguments = info.arguments;
+  handler.version = info.version;
+  handler.authors = info.authors;
+  handler.description = info.description;
+}
