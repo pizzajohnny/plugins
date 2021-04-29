@@ -1,3 +1,5 @@
+import { applyMetadata, Plugin } from "../../types/plugin";
+
 import { promises as $fsPromises } from "fs";
 import { SceneContext, SceneOutput } from "../../types/scene";
 import {
@@ -7,6 +9,8 @@ import {
   getTemplateMatcher,
 } from "./template";
 import { toNormalizedSafeFilename } from "./utils";
+
+import info from "./info.json";
 
 // TODO: add custom fields support in templates
 // TODO: add blacklist to exclude some file patterns from the rename operations
@@ -86,7 +90,7 @@ enum ConflictAction {
   SKIP = "skip",
 }
 
-module.exports = async (ctx: MySceneContext): Promise<SceneOutput> => {
+const handler: Plugin<MySceneContext, SceneOutput> = async (ctx) => {
   const { args, scenePath, $formatMessage, $fs, $logger, $path, $throw } = ctx;
 
   if (!["sceneCreated", "sceneCustom"].includes(ctx.event)) {
@@ -166,3 +170,11 @@ module.exports = async (ctx: MySceneContext): Promise<SceneOutput> => {
   $logger.info(`Renamed "${scenePath}" to "${newScenePath}"`);
   return { path: newScenePath };
 };
+
+handler.requiredVersion = ">=0.27";
+
+applyMetadata(handler, info);
+
+module.exports = handler;
+
+export default handler;
