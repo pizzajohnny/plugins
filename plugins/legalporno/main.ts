@@ -1,8 +1,6 @@
-import { applyMetadata, Plugin } from "../../types/plugin";
+import { applyMetadata, Plugin, Context } from "../../types/plugin";
 
 import $cheerio from "cheerio";
-
-import { Context } from "../../types/plugin";
 
 import info from "./info.json";
 
