@@ -111,27 +111,19 @@ export interface IPluginInfo {
   arguments: unknown;
   version: string;
   authors: string[];
-  pluginName: string;
+  name: string;
   description: string;
 }
 
-export interface IPluginMetadata extends IPluginInfo {
+export type IPluginMetadata = {
   // Used to validate usage
   requiredVersion: string;
   validateArguments: (args: unknown) => boolean;
-}
+} & { info: IPluginInfo };
 export type PluginFunction<Input, Output> = (ctx: Input) => Promise<Output>;
 export type Plugin<Input, Output> = PluginFunction<Input, Output> & Partial<IPluginMetadata>;
 
 // available as utility function in plugin dev context
-export function applyMetadata(
-  handler: Plugin<any, any>,
-  info: Partial<IPluginInfo & { name: string }>
-) {
-  handler.pluginName = info.name;
-  handler.events = info.events;
-  handler.arguments = info.arguments;
-  handler.version = info.version;
-  handler.authors = info.authors;
-  handler.description = info.description;
+export function applyMetadata(handler: Plugin<any, any>, info: IPluginInfo) {
+  handler.info = info;
 }
