@@ -5,22 +5,7 @@ const table = require("markdown-table") as (val: any) => any;
 import YAML from "yaml";
 
 import { setIn } from "./util";
-import { IPluginInfo } from "../types/plugin";
-
-interface PluginArg {
-  name: string;
-  type: boolean;
-  required: boolean;
-  default?: any;
-  description?: string;
-}
-
-type PluginEvents =
-  | "actorCreated"
-  | "actorCustom"
-  | "sceneCreated"
-  | "sceneCustom"
-  | "movieCreated";
+import { IPluginInfo, PluginArg } from "../types/plugin";
 
 const pluginTemplate = fs.readFileSync("plugin_template.md", "utf-8");
 
@@ -63,7 +48,7 @@ function generatePluginEvents(pluginName: string, pluginEvents: string[]) {
 function generatePluginExample(pluginInfo: IPluginInfo) {
   const defaultArgs = generateDefaultPluginArguments(pluginInfo.arguments);
 
-  const pluginEvents = generatePluginEvents(pluginInfo.name, pluginInfo.pluginEvents);
+  const pluginEvents = generatePluginEvents(pluginInfo.name, pluginInfo.events);
 
   return {
     plugins: {

@@ -105,10 +105,25 @@ export type DeepPartial<T> = {
   [P in keyof T]?: DeepPartial<T[P]> | undefined;
 };
 
+export type PluginEvents =
+  | "actorCreated"
+  | "actorCustom"
+  | "sceneCreated"
+  | "sceneCustom"
+  | "movieCreated";
+
+export interface PluginArg {
+  name: string;
+  type: boolean;
+  required: boolean;
+  default?: any;
+  description?: string;
+}
+
 export interface IPluginInfo {
   // Taken from plugin's info.json
-  events: string[];
-  arguments: unknown;
+  events: PluginEvents[];
+  arguments: PluginArg[];
   version: string;
   authors: string[];
   name: string;
