@@ -114,7 +114,7 @@ export type PluginEvents =
 
 export interface PluginArg {
   name: string;
-  type: boolean;
+  type: string;
   required: boolean;
   default?: any;
   description?: string;
@@ -122,7 +122,7 @@ export interface PluginArg {
 
 export interface IPluginInfo {
   // Taken from plugin's info.json
-  events: PluginEvents[];
+  events: PluginEvents[] | string[];
   arguments: PluginArg[];
   version: string;
   authors: string[];
