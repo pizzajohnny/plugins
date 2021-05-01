@@ -1,7 +1,7 @@
 import { applyMetadata, Plugin, Context } from "../../types/plugin";
 import { ActorContext, ActorOutput } from "../../types/actor";
 
-import $cheerio from "cheerio";
+import * as $cheerio from "cheerio";
 
 import info from "./info.json";
 
