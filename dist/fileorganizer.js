@@ -13,6 +13,15 @@ function createCommonjsModule(fn) {
 	return fn(module, module.exports), module.exports;
 }
 
+var plugin = createCommonjsModule(function (module, exports) {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.applyMetadata = void 0;
+function applyMetadata(handler, info) {
+    handler.info = info;
+}
+exports.applyMetadata = applyMetadata;
+});
+
 var template = createCommonjsModule(function (module, exports) {
 var __awaiter = (commonjsGlobal && commonjsGlobal.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -211,6 +220,87 @@ function sanitize(input, replacement) {
 exports.sanitize = sanitize;
 });
 
+var name = "fileorganizer";
+var version = "0.2.0";
+var authors = [
+	"arcadianCdr"
+];
+var description = "Use your custom-defined templates to rename your scene files.";
+var events = [
+	"sceneCreated",
+	"sceneCustom"
+];
+var require$$0 = {
+	name: name,
+	version: version,
+	authors: authors,
+	description: description,
+	events: events,
+	"arguments": [
+	{
+		name: "dry",
+		type: "Boolean",
+		required: false,
+		"default": false,
+		description: "Whether to perform the rename operation or just a simulation."
+	},
+	{
+		name: "fileStructureTemplate",
+		type: "String",
+		required: true,
+		"default": "",
+		description: "The template for the new name. See documentation above for details."
+	},
+	{
+		name: "normalizeAccents",
+		type: "Boolean",
+		required: false,
+		"default": false,
+		description: "Whether to normalize file names and path to unaccented unicode."
+	},
+	{
+		name: "normalizeMultipleSpaces",
+		type: "Boolean",
+		required: false,
+		"default": true,
+		description: "Whether to replace multiple spaces with a single space."
+	},
+	{
+		name: "nameConflictHandling",
+		type: "String",
+		required: false,
+		"default": "rename",
+		description: "Behavior in case of name conflicts. Possible values are: `rename` and `skip`. With `rename`, the new filename is suffixed with a number so that it does not conflict with an existing name anymore. With `skip`, the rename operation is cancelled."
+	},
+	{
+		name: "dateFormat",
+		type: "String",
+		required: false,
+		"default": "YYYY-MM-DD",
+		description: "The date format to use in file names. The full details are available at https://momentjs.com/docs/#/displaying/format/ although you probably just need `YYYY`, `MM` and `DD`."
+	},
+	{
+		name: "multiValuesSeparator",
+		type: "String",
+		required: true,
+		"default": ", ",
+		description: "The separator to use for multiple values (like actors, labels,...). For instance, with a `', '` as separator, a list of 3 labels will look like: `label1, label2, label3`."
+	},
+	{
+		name: "characterReplacement",
+		type: "object[]",
+		required: false,
+		"default": [
+			{
+				original: ":",
+				replacement: "∶"
+			}
+		],
+		description: "Used to substitute characters with a replacement alternative. See doc above for details. Note: the examples below looks like it is replacing a colon by a colon, but it is actually replacing the colon (illegal in filenames) by the similar looking 'mathematical ratio' character (allowed in filenames)"
+	}
+]
+};
+
 var __awaiter = (commonjsGlobal && commonjsGlobal.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -220,10 +310,15 @@ var __awaiter = (commonjsGlobal && commonjsGlobal.__awaiter) || function (thisAr
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (commonjsGlobal && commonjsGlobal.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 
 
 
 
+
+const info_json_1 = __importDefault(require$$0);
 function filenameMaker(ctx, template$1) {
     var _a, _b, _c, _d;
     return __awaiter(this, void 0, void 0, function* () {
@@ -265,7 +360,7 @@ var ConflictAction;
     ConflictAction["RENAME"] = "rename";
     ConflictAction["SKIP"] = "skip";
 })(ConflictAction || (ConflictAction = {}));
-var main = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
+const handler = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d, _e, _f;
     const { args, scenePath, $formatMessage, $fs, $logger, $path, $throw } = ctx;
     if (!["sceneCreated", "sceneCustom"].includes(ctx.event)) {
@@ -325,5 +420,10 @@ var main = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
     $logger.info(`Renamed "${scenePath}" to "${newScenePath}"`);
     return { path: newScenePath };
 });
+handler.requiredVersion = ">=0.27.0 || >=0.27.0-rc.0 || >=0.27.0-beta.0";
+plugin.applyMetadata(handler, info_json_1.default);
+var main = handler;
+var _default = handler;
+main.default = _default;
 
-module.exports = main;
+module.exports = _default;

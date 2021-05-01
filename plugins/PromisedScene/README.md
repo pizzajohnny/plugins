@@ -1,4 +1,4 @@
-## PromisedScene 0.3.3
+## PromisedScene 0.4.0
 
 by Ch00nassid a.k.a: DGs.Ch00, leadwolf
 
