@@ -1,6 +1,8 @@
 import { ActorContext, ActorOutput } from "../../types/actor";
 import { Context } from "../../types/plugin";
 
+import cheerio from "cheerio";
+
 interface MyContext extends ActorContext {
   args: {
     whitelist?: string[];
