@@ -22255,7 +22255,7 @@ const handler = (ctx) => __awaiter$2(void 0, void 0, void 0, function* () {
     }
     ctx.$throw("Uh oh. You shouldn't use the plugin for this type of event");
 });
-handler.requiredVersion = ">=0.27.0 || >=0.27.0-rc.0 || >=0.27.0-beta.0";
+handler.requiredVersion = ">=0.27.0";
 plugin.applyMetadata(handler, info_json_1.default);
 var main$1 = handler;
 var _default$9 = handler;

@@ -554,7 +554,7 @@ const handler = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
     ctx.$throw("Uh oh. You shouldn't use the plugin for this type of event");
     return {};
 });
-handler.requiredVersion = ">=0.27.0 || >=0.27.0-rc.0 || >=0.27.0-beta.0";
+handler.requiredVersion = ">=0.27.0";
 plugin.applyMetadata(handler, info_json_1.default);
 var main = handler;
 var _default = handler;
