@@ -659,7 +659,7 @@ const handler: Plugin<MyContext, SceneOutput> = async (ctx) => {
   }
 };
 
-handler.requiredVersion = ">=0.27.0 || >=0.27.0-rc.0 || >=0.27.0-beta.0";
+handler.requiredVersion = ">=0.27.0";
 
 applyMetadata(handler, info);
 
