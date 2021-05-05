@@ -22132,7 +22132,7 @@ function urlAvailable({ $axios }, url) {
         return status < 400;
     });
 }
-function default_1$1(ctx) {
+function default_1(ctx) {
     return __awaiter$1(this, void 0, void 0, function* () {
         const { args, $moment, $axios, $logger, $formatMessage, movieName, $createImage } = ctx;
         const name = movieName

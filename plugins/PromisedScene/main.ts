@@ -50,6 +50,15 @@ const handler: Plugin<MyContext, SceneOutput> = async (ctx) => {
     args.usePipedInputInSearch = false;
   }
 
+  const envApiKey = process.env.TPDB_API_KEY;
+  if (!Object.hasOwnProperty.call(args, "apiKey")) {
+    if (envApiKey) {
+      args.apiKey = process.env.TPDB_API_KEY;
+    } else {
+      $throw("Missing apiKey in plugin args!");
+    }
+  }
+
   if (!Object.hasOwnProperty.call(args, "useTitleInSearch")) {
     $logger.warn("Missing useTitleInSearch in plugin args!");
   }

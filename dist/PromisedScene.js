@@ -33,6 +33,7 @@ class Api {
         this.ctx = ctx;
         this.axios = ctx.$axios.create({
             baseURL: "https://api.metadataapi.net/api",
+            headers: { Authorization: `Bearer ${ctx.args.apiKey}` },
         });
     }
     parseScene(parse) {
