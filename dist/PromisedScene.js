@@ -509,7 +509,7 @@ exports.parseSceneTimestamp = parseSceneTimestamp;
 });
 
 var name = "PromisedScene";
-var version = "0.4.0";
+var version = "0.4.1";
 var authors = [
 	"Ch00nassid a.k.a: DGs.Ch00",
 	"leadwolf"
@@ -526,6 +526,13 @@ var require$$0 = {
 	description: description,
 	events: events,
 	"arguments": [
+	{
+		name: "apiKey",
+		type: "String",
+		required: true,
+		"default": "INSERT_KEY",
+		description: "Your TPDB api key"
+	},
 	{
 		name: "useTitleInSearch",
 		type: "Boolean",
@@ -633,6 +640,15 @@ const handler = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
     }
     if (!Object.hasOwnProperty.call(args, "usePipedInputInSearch")) {
         args.usePipedInputInSearch = false;
+    }
+    const envApiKey = process.env.TPDB_API_KEY;
+    if (!Object.hasOwnProperty.call(args, "apiKey")) {
+        if (envApiKey) {
+            args.apiKey = process.env.TPDB_API_KEY;
+        }
+        else {
+            $throw("Missing apiKey in plugin args!");
+        }
     }
     if (!Object.hasOwnProperty.call(args, "useTitleInSearch")) {
         $logger.warn("Missing useTitleInSearch in plugin args!");
