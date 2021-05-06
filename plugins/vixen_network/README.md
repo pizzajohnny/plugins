@@ -2,6 +2,8 @@
 
 by boi123212321
 
+[Download here](https://raw.githubusercontent.com/porn-vault/plugins/master/dist/vixen_network.js)
+
 Scrape data from VIXEN Network (VIXEN, BLACKED, BLACKED RAW, TUSHY, TUSHY RAW, DEEPER) scenes
 
 ### Arguments
@@ -17,13 +19,14 @@ Scrape data from VIXEN Network (VIXEN, BLACKED, BLACKED RAW, TUSHY, TUSHY RAW, D
 ### Example installation with default arguments
 
 `config.json`
+
 ```json
 ---
 {
   "plugins": {
     "register": {
       "vixen_network": {
-        "path": "./plugins/vixen_network/main.ts",
+        "path": "./plugins/vixen_network.js",
         "args": {
           "stripString": "[^a-zA-Z0-9'/\\,()[\\]{}-]",
           "dry": false,
@@ -47,12 +50,13 @@ Scrape data from VIXEN Network (VIXEN, BLACKED, BLACKED RAW, TUSHY, TUSHY RAW, D
 ```
 
 `config.yaml`
+
 ```yaml
 ---
 plugins:
   register:
     vixen_network:
-      path: ./plugins/vixen_network/main.ts
+      path: ./plugins/vixen_network.js
       args:
         stripString: "[^a-zA-Z0-9'/\\,()[\\]{}-]"
         dry: false
@@ -66,4 +70,5 @@ plugins:
       - vixen_network
 
 ---
+
 ```
