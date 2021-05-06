@@ -1,6 +1,8 @@
-## legalporno 0.2.1
+## legalporno 0.3.0
 
 by boi123212321
+
+[Download here](https://raw.githubusercontent.com/porn-vault/plugins/master/dist/legalporno.js)
 
 Scrape Legalporno/Analvids scene data
 
@@ -15,13 +17,14 @@ Scrape Legalporno/Analvids scene data
 ### Example installation with default arguments
 
 `config.json`
+
 ```json
 ---
 {
   "plugins": {
     "register": {
       "legalporno": {
-        "path": "./plugins/legalporno/main.ts",
+        "path": "./plugins/legalporno.js",
         "args": {
           "deep": true,
           "dry": false,
@@ -43,12 +46,13 @@ Scrape Legalporno/Analvids scene data
 ```
 
 `config.yaml`
+
 ```yaml
 ---
 plugins:
   register:
     legalporno:
-      path: ./plugins/legalporno/main.ts
+      path: ./plugins/legalporno.js
       args:
         deep: true
         dry: false
@@ -60,4 +64,5 @@ plugins:
       - legalporno
 
 ---
+
 ```

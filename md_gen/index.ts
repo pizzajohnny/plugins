@@ -5,37 +5,14 @@ const table = require("markdown-table") as (val: any) => any;
 import YAML from "yaml";
 
 import { setIn } from "./util";
-
-interface PluginArg {
-  name: string;
-  type: boolean;
-  required: boolean;
-  default?: any;
-  description?: string;
-}
-
-type PluginEvents =
-  | "actorCreated"
-  | "actorCustom"
-  | "sceneCreated"
-  | "sceneCustom"
-  | "movieCreated";
-
-interface PluginInfo {
-  name: string;
-  version: string;
-  authors: string[];
-  description: string;
-  pluginEvents: PluginEvents[];
-  arguments: PluginArg[];
-}
+import { IPluginInfo, PluginArg } from "../types/plugin";
 
 const pluginTemplate = fs.readFileSync("plugin_template.md", "utf-8");
 
 const pluginFolder = nodepath.resolve("../plugins");
 const pluginDirNames = fs.readdirSync(pluginFolder);
 
-const info: Record<string, PluginInfo> = {};
+const info: Record<string, IPluginInfo> = {};
 
 function generateDefaultPluginArguments(pluginArgs: PluginArg[]) {
   const args: Record<string, any> = {};
@@ -68,22 +45,26 @@ function generatePluginEvents(pluginName: string, pluginEvents: string[]) {
   return events;
 }
 
-function generatePluginExample(pluginInfo: PluginInfo) {
+function generatePluginExample(pluginInfo: IPluginInfo) {
   const defaultArgs = generateDefaultPluginArguments(pluginInfo.arguments);
 
-  const pluginEvents = generatePluginEvents(pluginInfo.name, pluginInfo.pluginEvents);
+  const pluginEvents = generatePluginEvents(pluginInfo.name, pluginInfo.events);
 
   return {
     plugins: {
       register: {
         [pluginInfo.name]: {
-          path: `./plugins/${pluginInfo.name}/main.ts`,
+          path: `./plugins/${pluginInfo.name}.js`,
           args: defaultArgs,
         },
       },
       events: pluginEvents,
     },
   };
+}
+
+function downloadUrl(pluginName: string): string {
+  return `https://raw.githubusercontent.com/porn-vault/plugins/master/dist/${pluginName}.js`;
 }
 
 const generatePluginDocs = () => {
@@ -93,7 +74,7 @@ const generatePluginDocs = () => {
 
     const infoPath = nodepath.join(pluginPath, "info.json");
 
-    const pluginInfo = JSON.parse(fs.readFileSync(infoPath, "utf-8")) as PluginInfo;
+    const pluginInfo = JSON.parse(fs.readFileSync(infoPath, "utf-8")) as IPluginInfo;
     info[pluginDirName] = pluginInfo;
 
     const docPath = nodepath.join(pluginPath, "docs.md");
@@ -109,6 +90,7 @@ const generatePluginDocs = () => {
       name: pluginInfo.name,
       version: pluginInfo.version,
       description: pluginInfo.description,
+      downloadLink: downloadUrl(pluginDirName),
       authors: pluginInfo.authors.join(", "),
       docs,
       hasArgs: pluginInfo.arguments && pluginInfo.arguments.length,
@@ -132,13 +114,15 @@ const generatePluginDocs = () => {
   console.log("Generating index...");
 
   const indexTemplate = fs.readFileSync("template.md", "utf-8");
-  const tableHeaders = ["Plugin", "Description"];
+  const tableHeaders = ["Plugin", "Version", "Description", "Download"];
   const rendered = Handlebars.compile(indexTemplate)({
     table: table([
       tableHeaders,
       ...Object.entries(info).map(([pluginDirName, pluginInfo]) => [
         `[${pluginInfo.name}](https://github.com/porn-vault/porn-vault-plugins/blob/master/plugins/${pluginDirName}/README.md)`,
+        pluginInfo.version,
         pluginInfo.description,
+        `[Link](${downloadUrl(pluginDirName)})`,
       ]),
     ]),
   });

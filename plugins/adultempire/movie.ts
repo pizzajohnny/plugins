@@ -1,3 +1,5 @@
+import $cheerio from "cheerio";
+
 import { MovieContext, MovieOutput } from "../../types/movie";
 import { Context } from "../../types/plugin";
 
@@ -8,7 +10,7 @@ interface MyContext extends MovieContext {
 }
 
 async function searchForMovie(
-  { $cheerio, $axios }: { $cheerio: Context["$cheerio"]; $axios: Context["$axios"] },
+  { $axios }: { $axios: Context["$axios"] },
   name: string
 ): Promise<string | false> {
   const url = `https://www.adultempire.com/allsearch/search?q=${name}`;
@@ -24,9 +26,16 @@ async function searchForMovie(
   return `https://adultempire.com${href}`;
 }
 
+async function urlAvailable({ $axios }: MyContext, url: string) {
+  const { status } = await $axios.head(url, {
+    validateStatus: () => true,
+  });
+  return status < 400;
+}
+
 export default async function (ctx: MyContext): Promise<MovieOutput> {
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { args, $moment, $axios, $cheerio, $logger, $formatMessage, movieName, $createImage } = ctx;
+  const { args, $moment, $axios, $logger, $formatMessage, movieName, $createImage } = ctx;
 
   const name = movieName
     .replace(/[#&]/g, "")
@@ -62,7 +71,11 @@ export default async function (ctx: MyContext): Promise<MovieOutput> {
 
     const frontCover = $("#front-cover img").toArray()[0];
     const frontCoverSrc = $(frontCover).attr("src") || "";
-    const backCoverSrc = frontCoverSrc.replace("h.jpg", "bh.jpg");
+    let backCoverSrc: string | null = frontCoverSrc.replace("h.jpg", "bh.jpg");
+
+    if (!(await urlAvailable(ctx, backCoverSrc))) {
+      backCoverSrc = null;
+    }
 
     if (args?.dry === true) {
       $logger.info(
@@ -78,7 +91,11 @@ export default async function (ctx: MyContext): Promise<MovieOutput> {
       );
     } else {
       const frontCoverImg = await $createImage(frontCoverSrc, `${movieName} (front cover)`);
-      const backCoverImg = await $createImage(backCoverSrc, `${movieName} (back cover)`);
+
+      let backCoverImg: string | undefined;
+      if (backCoverSrc) {
+        backCoverImg = await $createImage(backCoverSrc, `${movieName} (back cover)`);
+      }
 
       return {
         name: movieName,

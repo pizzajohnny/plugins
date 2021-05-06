@@ -1,5 +1,9 @@
+import { applyMetadata, Plugin, Context } from "../../types/plugin";
 import { ActorContext, ActorOutput } from "../../types/actor";
-import { Context } from "../../types/plugin";
+
+import * as $cheerio from "cheerio";
+
+import info from "./info.json";
 
 interface MyContext extends ActorContext {
   args: {
@@ -46,7 +50,7 @@ async function search(
 
 async function getFirstSearchResult(ctx: MyContext, query: string): Promise<cheerio.Cheerio> {
   const searchHtml = await search(ctx, query, ctx.args.searchResultsSort || "relevance");
-  const $ = ctx.$cheerio.load(searchHtml);
+  const $ = $cheerio.load(searchHtml);
   const el = $(".grid-item.teaser-subject>a");
   return el;
 }
@@ -79,25 +83,21 @@ class Measurements {
   }
 }
 
-module.exports = async (ctx: MyContext): Promise<ActorOutput> => {
-  const {
-    $createImage,
-    args,
-    $axios,
-    $moment,
-    $cheerio,
-    $throw,
-    $logger,
-    $formatMessage,
-    actorName,
-  } = ctx;
-  if (!actorName) $throw("Uh oh. You shouldn't use the plugin for this type of event");
+const handler: Plugin<MyContext, ActorOutput> = async (ctx) => {
+  const { $createImage, args, $axios, $moment, $throw, $logger, $formatMessage, actorName } = ctx;
+  if (!actorName) {
+    $throw("Uh oh. You shouldn't use the plugin for this type of event");
+  }
 
-  $logger.info(`Scraping freeones date for ${actorName}, dry mode: ${args.dry || false}...`);
+  $logger.info(`Scraping freeones for ${actorName}, dry mode: ${args.dry || false}...`);
 
   const blacklist = (args.blacklist || []).map(lowercase);
-  if (!args.blacklist) $logger.verbose("No blacklist defined, returning everything...");
-  if (blacklist.length) $logger.verbose(`Blacklist defined, will ignore: ${blacklist.join(", ")}`);
+  if (!args.blacklist) {
+    $logger.verbose("No blacklist defined, returning everything...");
+  }
+  if (blacklist.length) {
+    $logger.verbose(`Blacklist defined, will ignore: ${blacklist.join(", ")}`);
+  }
 
   const whitelist = (args.whitelist || []).map(lowercase);
   if (whitelist.length) {
@@ -136,19 +136,24 @@ module.exports = async (ctx: MyContext): Promise<ActorOutput> => {
 
   let firstResult: cheerio.Cheerio;
   try {
+    $logger.debug(`Searching for ${actorName}`);
     firstResult = await getFirstSearchResult(ctx, actorName);
   } catch (error) {
     $throw(error.message);
     return {}; // return for type compatibility
   }
 
-  if (!firstResult) $throw(`${actorName} not found!`);
+  if (!firstResult) {
+    $throw(`${actorName} not found!`);
+  }
 
-  const href = firstResult.attr("href");
+  const href = firstResult.attr("href")?.replace("/feed", "");
 
   let html: string;
   try {
-    html = (await $axios.get(`https://freeones.com${href}/profile`)).data;
+    const url = `https://freeones.com${href}/bio`;
+    $logger.debug(`GET ${url}`);
+    html = (await $axios.get<string>(url)).data;
   } catch (error) {
     $throw(error.message);
     return {}; // return for type compatibility
@@ -279,7 +284,7 @@ module.exports = async (ctx: MyContext): Promise<ActorOutput> => {
         $logger.verbose("No birth province found, just city!");
         return { birthplace: cityName };
       } else {
-        const bplace = cityName + ", " + stateName.split("-")[0].trim();
+        const bplace = `${cityName}, ${stateName.split("-")[0].trim()}`;
         return { birthplace: bplace };
       }
     }
@@ -359,6 +364,40 @@ module.exports = async (ctx: MyContext): Promise<ActorOutput> => {
     const aliases = aliasName.split(/,\s*/g);
 
     return { aliases };
+  }
+
+  function getCareer(): Partial<{
+    started: number;
+    ended: number;
+  }> {
+    if (isBlacklisted("career")) return {};
+    $logger.verbose("Getting career information...");
+
+    const careerSel = $(".timeline-horizontal p.m-0");
+    if (!careerSel) return {};
+
+    const career: Partial<{
+      started: number;
+      ended: number;
+    }> = {};
+
+    const careerStart = $(careerSel[0]).text();
+    if (careerStart && careerStart !== "Begin") {
+      career.started = Number.parseInt(careerStart, 10);
+      if (Number.isNaN(career.started)) {
+        delete career.started;
+      }
+    }
+
+    const careerEnd = $(careerSel[1]).text();
+    if (careerEnd && careerEnd !== "Now") {
+      career.ended = Number.parseInt(careerEnd, 10);
+      if (Number.isNaN(career.ended)) {
+        delete career.ended;
+      }
+    }
+
+    return career;
   }
 
   function scrapeMeasurements(): Measurements | null {
@@ -474,6 +513,7 @@ module.exports = async (ctx: MyContext): Promise<ActorOutput> => {
     ...getZodiac(),
     ...getGender(),
     ...getTattoos(),
+    ...getCareer(),
     ...getPiercings(),
   };
 
@@ -517,3 +557,11 @@ module.exports = async (ctx: MyContext): Promise<ActorOutput> => {
   }
   return data;
 };
+
+handler.requiredVersion = ">=0.27.0";
+
+applyMetadata(handler, info);
+
+module.exports = handler;
+
+export default handler;

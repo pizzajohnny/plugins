@@ -192,6 +192,7 @@ export type DeepPartial<T> = {
 
 export interface MyContext extends SceneContext {
   args: DeepPartial<{
+    apiKey: string;
     useTitleInSearch: boolean;
     parseActor: boolean;
     parseStudio: boolean;
@@ -199,6 +200,7 @@ export interface MyContext extends SceneContext {
     manualTouch: boolean;
     sceneDuplicationCheck: boolean;
     alwaysUseSingleResult: boolean;
+    usePipedInputInSearch: boolean;
     source_settings: {
       actors: string;
       studios: string;
