@@ -475,8 +475,8 @@ var require$$1 = {
 		name: "studios.channelSuffix",
 		type: "String",
 		required: false,
-		"default": " (Channel)",
-		description: "When `studios.uniqueNames` is active returning a **channel** name that also corresponds to a network, will be appended to the name. WARNING: spaces between the name & suffix will not be automatically added"
+		"default": "",
+		description: "When `studios.uniqueNames` is active and returning a **channel** name that also corresponds to a network, will be appended to the name. WARNING: spaces between the name & suffix will not be automatically added"
 	},
 	{
 		name: "studios.networkSuffix",
