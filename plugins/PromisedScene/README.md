@@ -5,11 +5,12 @@ by Ch00nassid a.k.a: DGs.Ch00, leadwolf
 Ask questions and make sure scene parsing is correct
 
 ### Download links
-Each download link is the latest version of the plugin for the indicated porn-vault server version:  
-| Server version                                                                              |
-| ------------------------------------------------------------------------------------------- |
-| [stable](https://raw.githubusercontent.com/porn-vault/plugins/master/dist/PromisedScene.js) |
-| [0.27](https://raw.githubusercontent.com/porn-vault/plugins/0.27/dist/PromisedScene.js)     |
+Each download link is for the latest version of the plugin, for the indicated porn-vault server version.  
+Make sure you are reading the documentation of the plugin, for the correct porn-vault server version.  
+| Server version                                                                                                 | Plugin documentation                                                                                          |
+| -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| [Download link for: stable](https://raw.githubusercontent.com/porn-vault/plugins/master/dist/PromisedScene.js) | [documentation](https://github.com/porn-vault/porn-vault-plugins/blob/master/plugins/PromisedScene/README.md) |
+| [Download link for: 0.27](https://raw.githubusercontent.com/porn-vault/plugins/0.27/dist/PromisedScene.js)     | [documentation](https://github.com/porn-vault/porn-vault-plugins/blob/0.27/plugins/PromisedScene/README.md)   |
 
 
 ### Documentation
