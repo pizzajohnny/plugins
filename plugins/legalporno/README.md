@@ -2,9 +2,15 @@
 
 by boi123212321
 
-[Download here](https://raw.githubusercontent.com/porn-vault/plugins/master/dist/legalporno.js)
-
 Scrape Legalporno/Analvids scene data
+
+### Download links
+Each download link is the latest version of the plugin for the indicated porn-vault server version:  
+| Server version                                                                           |
+| ---------------------------------------------------------------------------------------- |
+| [stable](https://raw.githubusercontent.com/porn-vault/plugins/master/dist/legalporno.js) |
+| [0.27](https://raw.githubusercontent.com/porn-vault/plugins/0.27/dist/legalporno.js)     |
+
 
 ### Arguments
 

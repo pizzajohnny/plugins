@@ -30,10 +30,13 @@ interface PluginInfo {
   arguments: PluginArg[];
 }
 
+const BRANCHES = ["master", "0.27"];
+
 const pluginTemplate = fs.readFileSync("plugin_template.md", "utf-8");
 
 const pluginFolder = nodepath.resolve("../plugins");
-const pluginDirNames = fs.readdirSync(pluginFolder);
+// Sort alphanumerically to avoid cross-platform conflicts
+const pluginDirNames = fs.readdirSync(pluginFolder).sort();
 
 const info: Record<string, PluginInfo> = {};
 
@@ -86,8 +89,8 @@ function generatePluginExample(pluginInfo: PluginInfo) {
   };
 }
 
-function downloadUrl(pluginName: string): string {
-  return `https://raw.githubusercontent.com/porn-vault/plugins/master/dist/${pluginName}.js`;
+function downloadUrl(branch:string, pluginName: string): string {
+  return `https://raw.githubusercontent.com/porn-vault/plugins/${branch}/dist/${pluginName}.js`;
 }
 
 const generatePluginDocs = () => {
@@ -113,7 +116,12 @@ const generatePluginDocs = () => {
       name: pluginInfo.name,
       version: pluginInfo.version,
       description: pluginInfo.description,
-      downloadLink: downloadUrl(pluginDirName),
+      downloadTable: table([
+        ["Server version"],
+        ...BRANCHES.map((branch) => [
+          `[${branch === "master" ? "stable" : branch}](${downloadUrl(branch, pluginDirName)})`
+        ]),
+      ]),
       authors: pluginInfo.authors.join(", "),
       docs,
       hasArgs: pluginInfo.arguments && pluginInfo.arguments.length,
@@ -145,7 +153,7 @@ const generatePluginDocs = () => {
         `[${pluginInfo.name}](https://github.com/porn-vault/porn-vault-plugins/blob/master/plugins/${pluginDirName}/README.md)`,
         pluginInfo.version,
         pluginInfo.description,
-        `[Link](${downloadUrl(pluginDirName)})`,
+        `[Link](${downloadUrl("master", pluginDirName)})`,
       ]),
     ]),
   });

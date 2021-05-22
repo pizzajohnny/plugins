@@ -2,9 +2,15 @@
 
 by arcadianCdr
 
-[Download here](https://raw.githubusercontent.com/porn-vault/plugins/master/dist/fileparser.js)
-
 Automatically extracts scene details from your library's file and directory structure. Supported properties: release date, studio, name, actors, movie and labels.
+
+### Download links
+Each download link is the latest version of the plugin for the indicated porn-vault server version:  
+| Server version                                                                           |
+| ---------------------------------------------------------------------------------------- |
+| [stable](https://raw.githubusercontent.com/porn-vault/plugins/master/dist/fileparser.js) |
+| [0.27](https://raw.githubusercontent.com/porn-vault/plugins/0.27/dist/fileparser.js)     |
+
 
 ### Documentation
 

@@ -2,9 +2,15 @@
 
 by boi123212321
 
-[Download here](https://raw.githubusercontent.com/porn-vault/plugins/master/dist/adultempire.js)
-
 Scrape data from adultempire
+
+### Download links
+Each download link is the latest version of the plugin for the indicated porn-vault server version:  
+| Server version                                                                            |
+| ----------------------------------------------------------------------------------------- |
+| [stable](https://raw.githubusercontent.com/porn-vault/plugins/master/dist/adultempire.js) |
+| [0.27](https://raw.githubusercontent.com/porn-vault/plugins/0.27/dist/adultempire.js)     |
+
 
 ### Arguments
 

@@ -2,9 +2,15 @@
 
 by boi123212321, john4valor, leadwolf
 
-[Download here](https://raw.githubusercontent.com/porn-vault/plugins/master/dist/pics.js)
-
 Find actor, scene, movie, studio images based on local files. GIF support.
+
+### Download links
+Each download link is the latest version of the plugin for the indicated porn-vault server version:  
+| Server version                                                                     |
+| ---------------------------------------------------------------------------------- |
+| [stable](https://raw.githubusercontent.com/porn-vault/plugins/master/dist/pics.js) |
+| [0.27](https://raw.githubusercontent.com/porn-vault/plugins/0.27/dist/pics.js)     |
+
 
 ### Documentation
 

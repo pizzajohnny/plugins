@@ -2,9 +2,15 @@
 
 by Ch00nassid a.k.a: DGs.Ch00, leadwolf
 
-[Download here](https://raw.githubusercontent.com/porn-vault/plugins/master/dist/PromisedScene.js)
-
 Ask questions and make sure scene parsing is correct
+
+### Download links
+Each download link is the latest version of the plugin for the indicated porn-vault server version:  
+| Server version                                                                              |
+| ------------------------------------------------------------------------------------------- |
+| [stable](https://raw.githubusercontent.com/porn-vault/plugins/master/dist/PromisedScene.js) |
+| [0.27](https://raw.githubusercontent.com/porn-vault/plugins/0.27/dist/PromisedScene.js)     |
+
 
 ### Documentation
 

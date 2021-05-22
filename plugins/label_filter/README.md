@@ -2,9 +2,15 @@
 
 by boi123212321
 
-[Download here](https://raw.githubusercontent.com/porn-vault/plugins/master/dist/label_filter.js)
-
 Filter labels returned by other plugins
+
+### Download links
+Each download link is the latest version of the plugin for the indicated porn-vault server version:  
+| Server version                                                                             |
+| ------------------------------------------------------------------------------------------ |
+| [stable](https://raw.githubusercontent.com/porn-vault/plugins/master/dist/label_filter.js) |
+| [0.27](https://raw.githubusercontent.com/porn-vault/plugins/0.27/dist/label_filter.js)     |
+
 
 ### Arguments
 
