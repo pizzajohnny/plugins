@@ -3,7 +3,11 @@
 
 name: MD Gen
 
-on: push
+on:
+  push:
+    branches:
+      - master
+      - 0.27
 
 jobs:
   build:

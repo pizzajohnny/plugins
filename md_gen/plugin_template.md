@@ -2,9 +2,13 @@
 
 by {{ authors }}
 
-[Download here]({{ downloadLink }})
-
 {{ description }}
+
+### Download links
+Each download link is for the latest version of the plugin, for the indicated porn-vault server version.  
+Make sure you are reading the documentation of the plugin, for the correct porn-vault server version.  
+{{ downloadTable }}
+
 {{#if docs}}
 
 ### Documentation
