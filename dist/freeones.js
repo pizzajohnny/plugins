@@ -22023,7 +22023,7 @@ exports.root = _static.root;
 });
 
 var name = "freeones";
-var version = "0.11.0";
+var version = "0.12.0";
 var authors = [
 	"boi123212321",
 	"john4valor",
