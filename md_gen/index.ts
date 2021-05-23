@@ -151,6 +151,7 @@ const generatePluginDocs = () => {
 
   const indexTemplate = fs.readFileSync("template.md", "utf-8");
   const tableHeaders = ["Plugin", "Version", "Description", "Download"];
+  
   const rendered = Handlebars.compile(indexTemplate)({
     table: table([
       tableHeaders,
