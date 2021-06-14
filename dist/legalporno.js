@@ -13,7 +13,7 @@ var __awaiter = (commonjsGlobal && commonjsGlobal.__awaiter) || function (thisAr
 };
 
 function extractShootId(originalTitle) {
-    const sceneIdMatch = originalTitle.match(/(AB|AF|GP|SZ|IV|GIO|RS|TW|MA|FM|SAL|NR|AA|GL|BZ|FS|KS|OTS|NF|NT|AX|RV|CM|BTG|MS|YE|VK|SAA|SF|ALS|QE|SA|BRB|SHN|NRX|MSV|PF)\d+/i);
+    const sceneIdMatch = originalTitle.match(/(AB|AF|GP|SZ|IV|GIO|RS|TW|MA|FM|SAL|NR|AA|GL|BZ|FS|KS|OTS|NF|NT|AX|RV|CM|BTG|MS|YE|VK|SAA|SF|ALS|QE|SA|BRB|SHN|NRX|MSV|PF|BIW)\d+/i);
     const shootId = sceneIdMatch ? sceneIdMatch[0] : null;
     return shootId;
 }
