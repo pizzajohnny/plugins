@@ -22053,14 +22053,15 @@ function default_1$1(ctx) {
             const actorUrl = `https://adultempire.com${href}`;
             const html = (yield $axios.get(actorUrl)).data;
             const $ = cheerio_1$1.default.load(html);
-            let avatar;
-            const firstImageResult = $(`a.fancy`).toArray()[0];
-            const avatarUrl = $(firstImageResult).attr("href");
-            if (avatarUrl) {
-                avatar = yield $createImage(avatarUrl, `${actorName} (avatar)`);
+            let thumbnail;
+            const images = $(`a.fancy`).toArray();
+            const firstImageResult = images[0];
+            const thumbnailUrl = $(firstImageResult).attr("href");
+            if (thumbnailUrl) {
+                thumbnail = yield $createImage(thumbnailUrl, `${actorName} (thumbnail)`);
             }
             let hero;
-            const secondImageResult = $(`a.fancy`).toArray()[1];
+            const secondImageResult = images[1];
             const heroUrl = $(secondImageResult).attr("href");
             if (heroUrl) {
                 hero = yield $createImage(heroUrl, `${actorName} (hero image)`);
@@ -22079,7 +22080,14 @@ function default_1$1(ctx) {
                     .split(",")
                     .map((s) => s.trim());
             }
-            const result = { avatar, $ae_avatar: avatarUrl, hero, $ae_hero: heroUrl, aliases, description };
+            const result = {
+                thumbnail,
+                $ae_thumbnail: thumbnailUrl,
+                hero,
+                $ae_hero: heroUrl,
+                aliases,
+                description,
+            };
             if (args === null || args === void 0 ? void 0 : args.dry) {
                 $logger.info(`Would have returned ${$formatMessage(result)}`);
                 return {};
@@ -22203,7 +22211,7 @@ var movie = /*#__PURE__*/Object.defineProperty({
 }, '__esModule', {value: true});
 
 var name = "adultempire";
-var version = "0.5.0";
+var version = "0.6.0";
 var authors = [
 	"boi123212321"
 ];
