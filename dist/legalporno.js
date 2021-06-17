@@ -22023,7 +22023,7 @@ exports.root = _static.root;
 });
 
 var name = "legalporno";
-var version = "0.3.0";
+var version = "0.3.1";
 var authors = [
 	"boi123212321"
 ];
@@ -22080,7 +22080,7 @@ var __importDefault = (commonjsGlobal && commonjsGlobal.__importDefault) || func
 const cheerio_1 = __importDefault(cheerio);
 const info_json_1 = __importDefault(require$$1);
 function extractShootId(originalTitle) {
-    const sceneIdMatch = originalTitle.match(/(AB|AF|GP|SZ|IV|GIO|RS|TW|MA|FM|SAL|NR|AA|GL|BZ|FS|KS|OTS|NF|NT|AX|RV|CM|BTG|MS|YE|VK|SAA|SF|ALS|QE|SA|BRB|SHN|NRX|MSV|PF)\d+/i);
+    const sceneIdMatch = originalTitle.match(/(AB|AF|GP|SZ|IV|GIO|RS|TW|MA|FM|SAL|NR|AA|GL|BZ|FS|KS|OTS|NF|NT|AX|RV|CM|BTG|MS|YE|VK|SAA|SF|ALS|QE|SA|BRB|SHN|NRX|MSV|PF|BIW)\d+/i);
     const shootId = sceneIdMatch ? sceneIdMatch[0] : null;
     return shootId;
 }

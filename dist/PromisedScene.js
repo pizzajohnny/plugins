@@ -509,12 +509,12 @@ exports.parseSceneTimestamp = parseSceneTimestamp;
 });
 
 var name = "PromisedScene";
-var version = "0.4.1";
+var version = "0.4.2";
 var authors = [
 	"Ch00nassid a.k.a: DGs.Ch00",
 	"leadwolf"
 ];
-var description = "Ask questions and make sure scene parsing is correct";
+var description = "TPDB parser. Manual input possible: manual scene data entry, TPDB search result confirmation";
 var events = [
 	"sceneCreated",
 	"sceneCustom"
@@ -1009,7 +1009,8 @@ const handler = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
             function mergeSearchResult(rawScene) {
                 return __awaiter(this, void 0, void 0, function* () {
                     util.checkSceneExistsInDb(ctx, rawScene.title);
-                    const sceneData = util.normalizeSceneResultData(rawScene);
+                    const fullSceneRes = yield tpdbApi.getSceneById(rawScene.id);
+                    const sceneData = util.normalizeSceneResultData(fullSceneRes.data.data);
                     if ((!sceneData.actors || !sceneData.actors.length) &&
                         Array.isArray(actors) &&
                         actors.length) {
