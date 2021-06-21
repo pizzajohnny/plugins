@@ -5,7 +5,7 @@ export default {
     "Two tushies are better than one! Double your pleasure with European tag team Agatha and Ginebra, as they squeeze their derrieres into tight jeans for a tease then climb into bed for a fiery anal threesome.",
   actors: ["Agatha Vega", "Christian Clay", "Ginebra Bellucci"],
   custom: {
-    director: "Alex Eikster",
+    /*   director: "Alex Eikster", */
   },
   labels: [
     "anal",

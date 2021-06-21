@@ -1,10 +1,17 @@
-## vixen_network 0.3.3
+## vixen_network 0.4.0
 
 by boi123212321
 
-[Download here](https://raw.githubusercontent.com/porn-vault/plugins/master/dist/vixen_network.js)
-
 Scrape data from VIXEN Network (VIXEN, BLACKED, BLACKED RAW, TUSHY, TUSHY RAW, DEEPER) scenes
+
+### Download links
+Each download link is for the latest version of the plugin, for the indicated porn-vault server version.  
+Make sure you are reading the documentation of the plugin, for the correct porn-vault server version.  
+| Server version                                                                                                 | Plugin documentation                                                                                          |
+| -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| [Download link for: stable](https://raw.githubusercontent.com/porn-vault/plugins/master/dist/vixen_network.js) | [documentation](https://github.com/porn-vault/porn-vault-plugins/blob/master/plugins/vixen_network/README.md) |
+| [Download link for: 0.27](https://raw.githubusercontent.com/porn-vault/plugins/0.27/dist/vixen_network.js)     | [documentation](https://github.com/porn-vault/porn-vault-plugins/blob/0.27/plugins/vixen_network/README.md)   |
+
 
 ### Arguments
 
@@ -12,7 +19,6 @@ Scrape data from VIXEN Network (VIXEN, BLACKED, BLACKED RAW, TUSHY, TUSHY RAW, D
 | ------------ | ------- | -------- | ---------------------------------- |
 | stripString  | String  | false    | Matcher string regex               |
 | dry          | Boolean | false    | Whether to commit data changes     |
-| deep         | Boolean | false    | Get extra info from scene details  |
 | useThumbnail | Boolean | false    | Download & attach scene thumbnail  |
 | useChapters  | Boolean | false    | Create scene markers from chapters |
 
@@ -30,7 +36,6 @@ Scrape data from VIXEN Network (VIXEN, BLACKED, BLACKED RAW, TUSHY, TUSHY RAW, D
         "args": {
           "stripString": "[^a-zA-Z0-9'/\\,()[\\]{}-]",
           "dry": false,
-          "deep": true,
           "useThumbnail": false,
           "useChapters": false
         }
@@ -60,7 +65,6 @@ plugins:
       args:
         stripString: "[^a-zA-Z0-9'/\\,()[\\]{}-]"
         dry: false
-        deep: true
         useThumbnail: false
         useChapters: false
   events:

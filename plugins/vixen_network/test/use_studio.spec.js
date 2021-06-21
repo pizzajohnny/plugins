@@ -1,7 +1,8 @@
 const plugin = require("../main");
 const { expect } = require("chai");
 const { createPluginRunner } = require("../../../context");
-const indulgeUsResult = require("./indulge_us.fixture");
+
+const indulgeUsResult = require("./indulge_us.fixture").default;
 
 const runPlugin = createPluginRunner("vixen_network", plugin);
 
@@ -12,7 +13,7 @@ const fixture = [
 
 describe("VIXEN network", () => {
   for (const [path, expected] of fixture) {
-    it(`Should work for ${path}`, async () => {
+    it(`Use studio: Should work for ${path}`, async () => {
       const result = await runPlugin({
         event: "sceneCreated",
         sceneName: "?????????????",
@@ -33,7 +34,7 @@ describe("VIXEN network", () => {
       expect(result.actors).to.deep.equal(expected.actors);
       expect(result.custom).to.deep.equal(expected.custom);
       expect(result.labels).to.deep.equal(expected.labels);
-      expect(result.$thumbnail).to.be.a("string").that.contains("TRIPPLE");
+      expect(result.$thumbnail).to.be.a("string").that.contains("mainLandscape");
       expect(result.thumbnail).to.be.undefined;
       expect(result.$markers).to.have.length(0);
     });

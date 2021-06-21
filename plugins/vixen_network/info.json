@@ -1,6 +1,6 @@
 {
   "name": "vixen_network",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "authors": ["boi123212321"],
   "description": "Scrape data from VIXEN Network (VIXEN, BLACKED, BLACKED RAW, TUSHY, TUSHY RAW, DEEPER) scenes",
   "events": ["sceneCreated", "sceneCustom"],
@@ -18,13 +18,6 @@
       "required": false,
       "default": false,
       "description": "Whether to commit data changes"
-    },
-    {
-      "name": "deep",
-      "type": "Boolean",
-      "required": false,
-      "default": true,
-      "description": "Get extra info from scene details"
     },
     {
       "name": "useThumbnail",

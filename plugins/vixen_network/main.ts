@@ -1,20 +1,45 @@
 import { SceneContext } from "../../types/scene";
+const compressQuery = require("graphql-query-compress") as (x: string) => string;
 
-interface ISceneInfo {
-  newId: string;
-  releaseDate: string;
-  directorNames: string;
-  categories: { name: string }[];
-  trippleThumbUrlSizes: { mainThumb: { "1040w": string } };
-  chapters: {
-    video: {
-      title: string;
-      seconds: number;
-    }[];
+interface ImageInfo {
+  src: string;
+  highdpi: {
+    double: string;
   };
 }
 
-const sites = [
+interface IGraphQLResult {
+  data: {
+    searchVideos: {
+      edges: {
+        node: {
+          slug: string;
+          description: string;
+          title: string;
+          releaseDate: string;
+          models: { name: string }[];
+          categories: { name: string }[];
+          images: {
+            poster: ImageInfo[];
+          };
+          chapters: {
+            video: {
+              title: string;
+              seconds: number;
+            }[];
+          };
+        };
+      }[];
+    };
+  };
+}
+
+interface ISite {
+  name: string;
+  url: string;
+}
+
+const sites: ISite[] = [
   {
     name: "BLACKED RAW",
     url: "https://blackedraw.com",
@@ -45,20 +70,61 @@ function getArgs(ctx: SceneContext) {
   return ctx.args as Record<string, unknown>;
 }
 
-async function search(ctx: SceneContext, siteUrl: string, query: string) {
-  const url = `${siteUrl}/api/search/__autocomplete`;
+const graphqlQuery = `
+query($query: String!, $site: Site!) {
+  searchVideos(input: {
+      query: $query,
+      site: $site
+  }) {
+    edges {
+      node {
+        title
+        slug
+        description
+        releaseDate
+        categories {
+          name
+        }
+        chapters {
+          video {
+            title
+            seconds
+          }
+        }
+        models {
+          name
+        }
+        images {
+          poster {
+            ...ImageInfo
+          }
+        }
+      }
+    }
+  }
+}
+
+fragment ImageInfo on Image {
+  src
+  highdpi {
+    double
+  }
+}
+`;
+
+async function search(ctx: SceneContext, site: ISite, query: string) {
+  const url = `${site.url}/graphql`;
   ctx.$logger.debug(`GET ${url}`);
-  const res = await ctx.$axios.get(url, {
+  const res = await ctx.$axios.get<IGraphQLResult>(url, {
     params: {
-      q: query,
+      query: compressQuery(graphqlQuery).trim(),
+      variables: JSON.stringify({
+        site: site.name.replace(/ /g, ""),
+        query: query.trim(),
+      }),
     },
   });
-  return res.data.data.videos as {
-    title: string;
-    description: string;
-    modelsSlugged: { name: string; slugged: string }[];
-    targetUrl: string;
-  }[];
+  return res.data.data.searchVideos.edges.map(({ node }) => node);
 }
 
 function basicMatch(ctx: SceneContext, a: string, b: string) {
@@ -112,7 +178,7 @@ module.exports = async (ctx: SceneContext): Promise<any> => {
   const basename = $path.basename(scene.path);
   const filename = basename.replace($path.extname(basename), "");
 
-  const searchResults = await search(ctx, site.url, filename);
+  const searchResults = await search(ctx, site, filename);
 
   const found = searchResults.find(({ title }) => basicMatch(ctx, filename, title));
 
@@ -122,13 +188,32 @@ module.exports = async (ctx: SceneContext): Promise<any> => {
   }
 
   result.name = found.title;
-  result.actors = found.modelsSlugged.map(({ name }) => name).sort();
+  result.actors = found.models.map(({ name }) => name).sort();
   result.description = found.description;
   result.studio = site.name;
+  result.releaseDate = new Date(found.releaseDate).valueOf();
+  result.labels = found.categories.map(({ name }) => name).sort();
+  const thumbUrl = found.images.poster[3].src;
+  result.$thumbnail = thumbUrl;
 
   const args = getArgs(ctx);
 
-  if (args.deep === false) {
+  if (args.useThumbnail) {
+    $logger.verbose("Setting thumbnail");
+    result.thumbnail = await ctx.$createImage(thumbUrl, `${result.name}`, true);
+  }
+
+  if (args.useChapters) {
+    const chapters = found.chapters.video;
+    for (const { title, seconds } of chapters) {
+      result.$markers.push({
+        name: title,
+        time: seconds,
+      });
+    }
+  }
+
+  /* if (args.deep === false) {
     $logger.verbose("Not getting deep info");
   } else {
     const sceneUrl = `${site.url}/api${found.targetUrl}`;
@@ -168,7 +253,7 @@ module.exports = async (ctx: SceneContext): Promise<any> => {
         });
       }
     }
-  }
+  } */
 
   if (args.dry) {
     $logger.info(`Would have returned ${$formatMessage(result)}`);
