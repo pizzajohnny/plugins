@@ -1,5 +1,4 @@
 import { SceneContext } from "../../types/scene";
-const compressQuery = require("graphql-query-compress") as (x: string) => string;
 
 interface ImageInfo {
   src: string;
@@ -117,7 +116,7 @@ async function search(ctx: SceneContext, site: ISite, query: string) {
   ctx.$logger.debug(`GET ${url}`);
   const res = await ctx.$axios.get<IGraphQLResult>(url, {
     params: {
-      query: compressQuery(graphqlQuery).trim(),
+      query: graphqlQuery.trim(),
       variables: JSON.stringify({
         site: site.name.replace(/ /g, ""),
         query: query.trim(),
@@ -212,48 +211,6 @@ module.exports = async (ctx: SceneContext): Promise<any> => {
       });
     }
   }
-
-  /* if (args.deep === false) {
-    $logger.verbose("Not getting deep info");
-  } else {
-    const sceneUrl = `${site.url}/api${found.targetUrl}`;
-    $logger.verbose(`Getting more scene info (deep: true): ${sceneUrl}`);
-
-    const { data } = (
-      await ctx.$axios.get<{
-        data: {
-          video: ISceneInfo;
-        };
-      }>(sceneUrl)
-    ).data;
-
-    const scene = data.video;
-
-    result.releaseDate = new Date(scene.releaseDate).valueOf();
-    result.custom.director = scene.directorNames;
-    result.labels = scene.categories.map(({ name }) => name).sort();
-
-    const thumbUrl = decodeURI(scene.trippleThumbUrlSizes.mainThumb["1040w"]).replace(
-      /&amp;/g,
-      "&"
-    );
-    result.$thumbnail = thumbUrl;
-
-    if (args.useThumbnail) {
-      $logger.verbose("Setting thumbnail");
-      result.thumbnail = await ctx.$createImage(thumbUrl, `${result.name}`, true);
-    }
-
-    if (args.useChapters) {
-      const chapters = scene.chapters.video;
-      for (const { title, seconds } of chapters) {
-        result.$markers.push({
-          name: title,
-          time: seconds,
-        });
-      }
-    }
-  } */
 
   if (args.dry) {
     $logger.info(`Would have returned ${$formatMessage(result)}`);
