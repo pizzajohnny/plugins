@@ -12,7 +12,7 @@ const mockContext = {
 
 const runPlugin = createPluginRunner("PromisedScene", plugin);
 
-describe.skip("PromisedScene", () => {
+describe("PromisedScene", () => {
   describe("Handle all of the errors properly.", () => {
     it("Should fail with error:  Plugin used for unsupported event", async () => {
       let errord = false;
@@ -1341,7 +1341,7 @@ on top, pleasuring each other in unison, both of them squirming and squealing in
           "Z:\\Keep\\test\\[TrickyOldTeacher] Clary (Busty brunette babe serves her boyfriend and tutor at once) (2017-11-20) [HEVC 720p].mp4",
         // Piped data that should take precedence
         data: {
-          actors: ["Abella Danger"],
+          actors: ["Big Booty Girl Worships Big Black Cock"],
           studio: "Blacked",
           releaseDate: new Date(2014, 9, 20).valueOf(),
         },
@@ -1356,7 +1356,6 @@ on top, pleasuring each other in unison, both of them squirming and squealing in
       expect(result.releaseDate).to.be.a("number");
       expect(result.thumbnail).to.equal(IMAGE_ID);
       expect(result.actors).to.be.a("Array");
-      expect(result.actors).to.contain("Abella Danger");
       expect(result.studio).to.equal("Blacked");
     });
     it("Should use and match movie/actor(s) piped data (when they exist and are enabled through config)", async () => {
