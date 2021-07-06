@@ -283,7 +283,7 @@ const matchSceneResultToPipedData = (ctx, sceneList) => {
 };
 exports.matchSceneResultToPipedData = matchSceneResultToPipedData;
 const normalizeSceneResultData = (sceneData) => {
-    var _a;
+    var _a, _b;
     const result = {};
     if (sceneData.title) {
         result.name = sceneData.title;
@@ -300,7 +300,7 @@ const normalizeSceneResultData = (sceneData) => {
     if (sceneData.background.large && !sceneData.background.large.includes("default")) {
         result.thumbnail = sceneData.background.large;
     }
-    if (sceneData.performers) {
+    if ((_b = sceneData.performers) === null || _b === void 0 ? void 0 : _b.length) {
         result.actors = sceneData.performers.map((p) => p.name);
     }
     if (sceneData.site.name) {
@@ -509,10 +509,11 @@ exports.parseSceneTimestamp = parseSceneTimestamp;
 });
 
 var name = "PromisedScene";
-var version = "0.4.2";
+var version = "0.4.3";
 var authors = [
 	"Ch00nassid a.k.a: DGs.Ch00",
-	"leadwolf"
+	"leadwolf",
+	"arcadianCdr"
 ];
 var description = "TPDB parser. Manual input possible: manual scene data entry, TPDB search result confirmation";
 var events = [
