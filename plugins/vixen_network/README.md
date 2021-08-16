@@ -2,7 +2,7 @@
 
 by boi123212321
 
-Scrape data from VIXEN Network (VIXEN, BLACKED, BLACKED RAW, TUSHY, TUSHY RAW, DEEPER) scenes
+Scrape data from VIXEN Network (VIXEN, BLACKED, BLACKED RAW, TUSHY, TUSHY RAW, DEEPER, SLAYED) scenes
 
 ### Download links
 Each download link is for the latest version of the plugin, for the indicated porn-vault server version.  

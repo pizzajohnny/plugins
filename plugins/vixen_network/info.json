@@ -2,7 +2,7 @@
   "name": "vixen_network",
   "version": "0.5.0",
   "authors": ["boi123212321"],
-  "description": "Scrape data from VIXEN Network (VIXEN, BLACKED, BLACKED RAW, TUSHY, TUSHY RAW, DEEPER) scenes",
+  "description": "Scrape data from VIXEN Network (VIXEN, BLACKED, BLACKED RAW, TUSHY, TUSHY RAW, DEEPER, SLAYED) scenes",
   "events": ["sceneCreated", "sceneCustom"],
   "arguments": [
     {
