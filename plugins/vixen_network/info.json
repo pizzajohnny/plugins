@@ -1,6 +1,6 @@
 {
   "name": "vixen_network",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "authors": ["boi123212321"],
   "description": "Scrape data from VIXEN Network (VIXEN, BLACKED, BLACKED RAW, TUSHY, TUSHY RAW, DEEPER) scenes",
   "events": ["sceneCreated", "sceneCustom"],
