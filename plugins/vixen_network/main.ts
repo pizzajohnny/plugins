@@ -183,7 +183,9 @@ module.exports = async (ctx: SceneContext): Promise<any> => {
 
   const searchResults = await search(ctx, site, filename);
 
-  const found = searchResults.find(({ title }) => basicMatch(ctx, filename, title));
+  const found = searchResults
+    .filter(({ title }) => basicMatch(ctx, filename, title))
+    .sort((a, b) => b.title.length - a.title.length)[0];
 
   if (!found) {
     $logger.warn(`No result found for "${site.url}"`);

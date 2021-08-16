@@ -35,7 +35,7 @@ const fixture = [
 ];
 
 describe("VIXEN network", () => {
-  describe("Slayed", () => {
+  describe("SLAYED", () => {
     for (const [path, expected] of fixture) {
       it(`Basic: Should work for ${path}`, async () => {
         const result = await runPlugin({
