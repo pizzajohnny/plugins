@@ -37,6 +37,10 @@ const sites = [
         name: "DEEPER",
         url: "https://deeper.com",
     },
+    {
+        name: "SLAYED",
+        url: "https://slayed.com",
+    },
 ];
 function getArgs(ctx) {
     return ctx.args;
@@ -135,7 +139,9 @@ var main = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
     const basename = $path.basename(scene.path);
     const filename = basename.replace($path.extname(basename), "");
     const searchResults = yield search(ctx, site, filename);
-    const found = searchResults.find(({ title }) => basicMatch(ctx, filename, title));
+    const found = searchResults
+        .filter(({ title }) => basicMatch(ctx, filename, title))
+        .sort((a, b) => b.title.length - a.title.length)[0];
     if (!found) {
         $logger.warn(`No result found for "${site.url}"`);
         return {};
