@@ -14,27 +14,28 @@ const fixture = [
 ];
 
 describe("VIXEN network", () => {
-  for (const [path, expected] of fixture) {
-    it(`Basic: Should work for ${path}`, async () => {
-      const result = await runPlugin({
-        event: "sceneCreated",
-        sceneName: "?????????????",
-        scene: {
-          _id: "xxx",
-          name: "?????????????",
-          path,
-        },
+  describe("Basic usage", () => {
+    for (const [path, expected] of fixture) {
+      it(`Basic: Should work for ${path}`, async () => {
+        const result = await runPlugin({
+          event: "sceneCreated",
+          sceneName: "?????????????",
+          scene: {
+            _id: "xxx",
+            name: "?????????????",
+            path,
+          },
+        });
+        expect(result.name).to.equal(expected.name);
+        expect(result.releaseDate).to.equal(expected.releaseDate);
+        expect(result.description).to.equal(expected.description);
+        expect(result.actors).to.deep.equal(expected.actors);
+        expect(result.custom).to.deep.equal(expected.custom);
+        expect(result.labels).to.deep.equal(expected.labels);
+        expect(result.$thumbnail).to.be.a("string").that.contains("mainLandscape");
+        expect(result.thumbnail).to.be.undefined;
+        expect(result.$markers).to.have.length(0);
       });
-      console.log({ expected });
-      expect(result.name).to.equal(expected.name);
-      expect(result.releaseDate).to.equal(expected.releaseDate);
-      expect(result.description).to.equal(expected.description);
-      expect(result.actors).to.deep.equal(expected.actors);
-      expect(result.custom).to.deep.equal(expected.custom);
-      expect(result.labels).to.deep.equal(expected.labels);
-      expect(result.$thumbnail).to.be.a("string").that.contains("mainLandscape");
-      expect(result.thumbnail).to.be.undefined;
-      expect(result.$markers).to.have.length(0);
-    });
-  }
+    }
+  });
 });

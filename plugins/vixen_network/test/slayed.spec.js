@@ -2,19 +2,42 @@ const plugin = require("../main");
 const { expect } = require("chai");
 const { createPluginRunner } = require("../../../context");
 
-const indulgeUsResult = require("./indulge_us.fixture").default;
-
 const runPlugin = createPluginRunner("vixen_network", plugin);
 
 const fixture = [
-  ["Agatha Vega, Ginebra Bellucci Indulge Us.mp4", indulgeUsResult],
-  ["Indulge Us.mp4", indulgeUsResult],
+  [
+    "Light Me Up - Slayed.mp4",
+    {
+      name: "Light Me Up",
+      releaseDate: 1628157600000,
+      description:
+        "Exhibitionist, voyeur, artist and muse: when Emily and Vanna come together, they just can’t keep things professional. From a dazzling sapphic photoshoot springs a heated office affair as this pair turns the art world upside down.",
+      actors: ["Emily Willis", "Vanna Bardot"],
+      custom: {
+        /*   director: "Alex Eikster", */
+      },
+      labels: [
+        "ass fingering",
+        "ass play",
+        "brunette",
+        "fingering",
+        "high heels",
+        "kissing",
+        "lingerie",
+        "natural tits",
+        "orgasm",
+        "pussy licking",
+        "redhead",
+        "squirting",
+      ],
+    },
+  ],
 ];
 
 describe("VIXEN network", () => {
-  describe("Use attached studio", () => {
+  describe("Slayed", () => {
     for (const [path, expected] of fixture) {
-      it(`Use studio: Should work for ${path}`, async () => {
+      it(`Basic: Should work for ${path}`, async () => {
         const result = await runPlugin({
           event: "sceneCreated",
           sceneName: "?????????????",
@@ -23,10 +46,8 @@ describe("VIXEN network", () => {
             name: "?????????????",
             path,
           },
-          async $getStudio() {
-            return {
-              name: "TUSHY RAW",
-            };
+          args: {
+            useChapters: true,
           },
         });
         expect(result.name).to.equal(expected.name);
@@ -37,7 +58,7 @@ describe("VIXEN network", () => {
         expect(result.labels).to.deep.equal(expected.labels);
         expect(result.$thumbnail).to.be.a("string").that.contains("mainLandscape");
         expect(result.thumbnail).to.be.undefined;
-        expect(result.$markers).to.have.length(0);
+        expect(result.$markers[1].name).to.equal("Kissing");
       });
     }
   });

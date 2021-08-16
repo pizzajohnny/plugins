@@ -63,6 +63,10 @@ const sites: ISite[] = [
     name: "DEEPER",
     url: "https://deeper.com",
   },
+  {
+    name: "SLAYED",
+    url: "https://slayed.com",
+  },
 ];
 
 function getArgs(ctx: SceneContext) {
