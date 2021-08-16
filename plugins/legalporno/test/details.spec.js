@@ -26,6 +26,7 @@ describe("Legalporno", () => {
       "anal",
       "big butt",
       "cum swallowing",
+      "czech",
       "double anal (DAP)",
       "facial cumshot",
       "first time",
@@ -58,6 +59,7 @@ describe("Legalporno", () => {
     ]);
     expect(result.labels).to.deep.equal([
       "3+ on 1",
+      "american",
       "anal",
       "average anal gape",
       "blowjob",
