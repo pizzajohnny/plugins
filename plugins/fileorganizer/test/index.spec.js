@@ -16,7 +16,9 @@ describe("fileorganizer", () => {
   });
 
   afterEach(function () {
-    fs.rmSync(tempPath, { recursive: true });
+    if (fs.existsSync(tempPath)) {
+      fs.rmSync(tempPath, { recursive: true });
+    }
   });
 
   it("Should fail", async () => {
