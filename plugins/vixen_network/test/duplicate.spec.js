@@ -6,13 +6,25 @@ const runPlugin = createPluginRunner("vixen_network", plugin);
 
 const fixture = [
   [
-    "Agatha Vega Vacay Blacked [facial, threesome].mp4",
+    "Agatha Vega Vacay Blacked.mp4",
     {
       name: "Vacay",
     },
   ],
   [
-    "Agatha Vega Vacay Part 2 Blacked [facial, threesome].mp4",
+    "Agatha Vega Vacay Part 2 Blacked.mp4",
+    {
+      name: "Vacay Part 2",
+    },
+  ],
+  [
+    "[Blacked] Vacay",
+    {
+      name: "Vacay",
+    },
+  ],
+  [
+    "[Blacked] Vacay Part 2",
     {
       name: "Vacay Part 2",
     },
