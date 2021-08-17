@@ -1,4 +1,4 @@
-[![Node.js CI](https://github.com/porn-vault/plugins/actions/workflows/nodejs.yml/badge.svg)](https://github.com/porn-vault/plugins/actions/workflows/nodejs.yml)
+[![Build Status](https://travis-ci.com/porn-vault/plugins.svg?branch=master)](https://travis-ci.com/porn-vault/plugins)
 [![codecov](https://codecov.io/gh/porn-vault/plugins/branch/master/graph/badge.svg?token=BL7X51KUGW)](https://codecov.io/gh/porn-vault/plugins)
 ![Contributors](https://img.shields.io/github/contributors/porn-vault/plugins)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/porn-vault/plugins/master)
