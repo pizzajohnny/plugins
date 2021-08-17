@@ -117,7 +117,7 @@ fragment ImageInfo on Image {
 
 async function search(ctx: SceneContext, site: ISite, query: string) {
   const url = `${site.url}/graphql`;
-  ctx.$logger.debug(`GET ${url}`);
+  ctx.$logger.debug(`GET ${url} with query "${query}"`);
   const res = await ctx.$axios.get<IGraphQLResult>(url, {
     params: {
       query: graphqlQuery.trim(),
@@ -182,6 +182,8 @@ module.exports = async (ctx: SceneContext): Promise<any> => {
   const filename = basename.replace($path.extname(basename), "");
 
   const searchResults = await search(ctx, site, filename);
+  $logger.debug("Search results:");
+  $logger.debug($formatMessage(searchResults.map(({ title }) => title)));
 
   const found = searchResults
     .filter(({ title }) => basicMatch(ctx, filename, title))
@@ -191,6 +193,8 @@ module.exports = async (ctx: SceneContext): Promise<any> => {
     $logger.warn(`No result found for "${site.url}"`);
     return {};
   }
+
+  $logger.verbose(`Using scene "${found.title}"`);
 
   result.name = found.title;
   result.actors = found.models.map(({ name }) => name).sort();

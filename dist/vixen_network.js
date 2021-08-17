@@ -89,7 +89,7 @@ fragment ImageInfo on Image {
 function search(ctx, site, query) {
     return __awaiter(this, void 0, void 0, function* () {
         const url = `${site.url}/graphql`;
-        ctx.$logger.debug(`GET ${url}`);
+        ctx.$logger.debug(`GET ${url} with query "${query}"`);
         const res = yield ctx.$axios.get(url, {
             params: {
                 query: graphqlQuery.trim(),
@@ -139,6 +139,8 @@ var main = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
     const basename = $path.basename(scene.path);
     const filename = basename.replace($path.extname(basename), "");
     const searchResults = yield search(ctx, site, filename);
+    $logger.debug("Search results:");
+    $logger.debug($formatMessage(searchResults.map(({ title }) => title)));
     const found = searchResults
         .filter(({ title }) => basicMatch(ctx, filename, title))
         .sort((a, b) => b.title.length - a.title.length)[0];
@@ -146,6 +148,7 @@ var main = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
         $logger.warn(`No result found for "${site.url}"`);
         return {};
     }
+    $logger.verbose(`Using scene "${found.title}"`);
     result.name = found.title;
     result.actors = found.models.map(({ name }) => name).sort();
     result.description = found.description;
