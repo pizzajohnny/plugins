@@ -2,6 +2,68 @@
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
+function createCommonjsModule(fn) {
+  var module = { exports: {} };
+	return fn(module, module.exports), module.exports;
+}
+
+var plugin = createCommonjsModule(function (module, exports) {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.applyMetadata = void 0;
+function applyMetadata(handler, info) {
+    handler.info = info;
+}
+exports.applyMetadata = applyMetadata;
+});
+
+var name = "vixen_network";
+var version = "0.5.2";
+var authors = [
+	"boi123212321"
+];
+var description = "Scrape data from VIXEN Network (VIXEN, BLACKED, BLACKED RAW, TUSHY, TUSHY RAW, DEEPER, SLAYED) scenes";
+var events = [
+	"sceneCreated",
+	"sceneCustom"
+];
+var require$$0 = {
+	name: name,
+	version: version,
+	authors: authors,
+	description: description,
+	events: events,
+	"arguments": [
+	{
+		name: "stripString",
+		type: "String",
+		required: false,
+		"default": "[^a-zA-Z0-9'/\\,()[\\]{}-]",
+		description: "Matcher string regex"
+	},
+	{
+		name: "dry",
+		type: "Boolean",
+		required: false,
+		"default": false,
+		description: "Whether to commit data changes"
+	},
+	{
+		name: "useThumbnail",
+		type: "Boolean",
+		required: false,
+		"default": false,
+		description: "Download & attach scene thumbnail"
+	},
+	{
+		name: "useChapters",
+		type: "Boolean",
+		required: false,
+		"default": false,
+		description: "Create scene markers from chapters"
+	}
+]
+};
+
 var __awaiter = (commonjsGlobal && commonjsGlobal.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -11,7 +73,12 @@ var __awaiter = (commonjsGlobal && commonjsGlobal.__awaiter) || function (thisAr
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (commonjsGlobal && commonjsGlobal.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 
+
+const info_json_1 = __importDefault(require$$0);
 const sites = [
     {
         name: "BLACKED RAW",
@@ -116,7 +183,7 @@ function findSite(ctx, str) {
         return basicMatch(ctx, str, site.name);
     });
 }
-var main = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
+const handler = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
     const { $logger, sceneName, scene, event, $formatMessage, $path } = ctx;
     if (!sceneName) {
         $logger.error(`Invalid event: ${event}`);
@@ -182,5 +249,10 @@ var main = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
     }
     return result;
 });
+handler.requiredVersion = ">=0.27.0";
+plugin.applyMetadata(handler, info_json_1.default);
+var main = handler;
+var _default = handler;
+main.default = _default;
 
-module.exports = main;
+module.exports = _default;

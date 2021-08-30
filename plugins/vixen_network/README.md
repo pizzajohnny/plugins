@@ -1,4 +1,4 @@
-## vixen_network 0.5.1
+## vixen_network 0.5.2
 
 by boi123212321
 
