@@ -1,4 +1,7 @@
+import { applyMetadata,Plugin } from "../../types/plugin";
 import { SceneContext } from "../../types/scene";
+
+import info from "./info.json";
 
 interface ImageInfo {
   src: string;
@@ -148,7 +151,7 @@ function findSite(ctx: SceneContext, str: string) {
   });
 }
 
-module.exports = async (ctx: SceneContext): Promise<any> => {
+const handler: Plugin<SceneContext, any> = async (ctx)=> {
   const { $logger, sceneName, scene, event, $formatMessage, $path } = ctx;
 
   if (!sceneName) {
@@ -235,3 +238,11 @@ module.exports = async (ctx: SceneContext): Promise<any> => {
 
   return result;
 };
+
+handler.requiredVersion = ">=0.27.0";
+
+applyMetadata(handler, info);
+
+module.exports = handler;
+
+export default handler;
